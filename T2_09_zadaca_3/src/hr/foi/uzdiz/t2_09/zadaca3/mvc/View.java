@@ -17,15 +17,48 @@ public class View {
     private static final String ANSI_ESC = "\033[";
     private Point primaryCursorPos;
     private Point secondaryCursorPos;
-    
+    private Point inputCursorPos;
     private boolean vertical;
+    private int rowNum;
+    private int colNum;
 
-    public View(boolean vertical) {
+    public View(boolean vertical, int rowNum, int colNum) {
         this.vertical = vertical;
+        this.rowNum = rowNum;
+        this.colNum = colNum;
+        
+        this.primaryCursorPos = this.getPrimaryStart();
+        this.secondaryCursorPos = this.getSecondaryStart();
+        
+        this.inputCursorPos = new Point(0, rowNum + 2);
     }
     
     public void cleanScreen() {
         System.out.print(ANSI_ESC + "2J");
+        
+        if (this.vertical) {
+            for (int i = 0; i < this.rowNum; i++) {
+                this.setCursorPos(new Point(((int) this.colNum / 2) + 1, i));
+                this.printLnOut("|");
+            }
+        } else {
+            this.setCursorPos(new Point(0, ((int) this.rowNum / 2) + 1));
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < this.colNum; i++) {
+                sb.append("-");
+            }
+            this.printLnOut(sb.toString());
+        }
+        
+        this.setCursorPos(new Point(0, this.inputCursorPos.y - 1));
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < this.colNum; i++) {
+            sb.append("-");
+        }
+        this.printLnOut(sb.toString());
+        
+        this.primaryCursorPos = this.getPrimaryStart();
+        this.secondaryCursorPos = this.getSecondaryStart();
     }
 
     public void printMenu() {
@@ -42,6 +75,7 @@ public class View {
     }
 
     public String requestChoice() {
+        this.setCursorPos(this.inputCursorPos);
         Scanner inputReader = new Scanner(System.in);
         String option = inputReader.nextLine();
 //        System.out.println("\n");
@@ -61,17 +95,75 @@ public class View {
     }
     
     private void printLnToPrimary(String line){
-        // TODO: set cursor to primary
+        this.setCursorPos(this.primaryCursorPos);
         this.printLnOut(line);
+        this.primaryCursorPos.y += 1;
     }
     
     private void printLnToSecondary(String line){
-        // TODO: set cursor to secondary
+        this.setCursorPos(this.secondaryCursorPos);
         this.printLnOut(line);
+        this.secondaryCursorPos.y += 1;
     }
     
     private void printLnOut(String line){
-        System.out.println(line);
+        System.out.print(line);
+    }
+    
+    private void setCursorPos(Point pos){
+        System.out.print(ANSI_ESC + (pos.y + 1) + ";" + (pos.x + 1) + "f");
+    }
+    
+    private Point getScreenPos(boolean primary, boolean start) {
+        if (primary) {
+            return this.getPrimaryPos(start);
+        } else {
+            return this.getSecondaryPos(start);
+        }
+    }
+
+    private Point getPrimaryPos(boolean start) {
+        if (start) {
+            return this.getPrimaryStart();
+        } else {
+            return this.getPrimaryEnd();
+        }
+    }
+    
+    private Point getSecondaryPos(boolean start) {
+        if (start) {
+            return this.getSecondaryStart();
+        } else {
+            return this.getSecondaryEnd();
+        }
+    }
+
+    private Point getPrimaryStart() {
+        return new Point(0, 0);
+    }
+
+    private Point getPrimaryEnd() {
+        if (this.vertical) {
+            return new Point(this.colNum / 2, this.rowNum);
+        } else {
+            return new Point(this.colNum, this.rowNum / 2);
+        }
+    }
+
+    private Point getSecondaryStart() {
+        if (this.vertical) {
+            return new Point(0, this.colNum / 2 + 2);
+        } else {
+            return new Point(this.rowNum / 2 + 2, 0);
+        }
+    }
+
+    private Point getSecondaryEnd() {
+        if (this.vertical) {
+            return new Point(this.colNum + 1, this.rowNum);
+        } else {
+            return new Point(this.colNum, this.rowNum + 1);
+        }
     }
     
 }
