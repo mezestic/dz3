@@ -30,7 +30,7 @@ public class View {
         this.primaryCursorPos = this.getPrimaryStart();
         this.secondaryCursorPos = this.getSecondaryStart();
         
-        this.inputCursorPos = new Point(0, rowNum + 2);
+        this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
     
     public void cleanScreen() {
@@ -78,7 +78,6 @@ public class View {
         this.setCursorPos(this.inputCursorPos);
         Scanner inputReader = new Scanner(System.in);
         String option = inputReader.nextLine();
-//        System.out.println("\n");
         return option;
     }
     
@@ -144,25 +143,25 @@ public class View {
 
     private Point getPrimaryEnd() {
         if (this.vertical) {
-            return new Point(this.colNum / 2, this.rowNum);
+            return new Point(((int) this.colNum / 2) - 1, this.rowNum - 1);
         } else {
-            return new Point(this.colNum, this.rowNum / 2);
+            return new Point(this.colNum - 1, ((int) this.rowNum / 2) - 1);
         }
     }
 
     private Point getSecondaryStart() {
         if (this.vertical) {
-            return new Point(0, this.colNum / 2 + 2);
+            return new Point(0, ((int) this.colNum / 2) + 1);
         } else {
-            return new Point(this.rowNum / 2 + 2, 0);
+            return new Point(((int) this.rowNum / 2) + 1, 0);
         }
     }
 
     private Point getSecondaryEnd() {
         if (this.vertical) {
-            return new Point(this.colNum + 1, this.rowNum);
+            return new Point(this.colNum, this.rowNum - 1);
         } else {
-            return new Point(this.colNum, this.rowNum + 1);
+            return new Point(this.colNum - 1, this.rowNum);
         }
     }
     
