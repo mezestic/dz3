@@ -47,7 +47,7 @@ public class T2_09_zadaca_3 {
 //        }
         
         Model model = new Model();
-        View view = new View(true, 30, 160); // TODO: arg orientation vertical
+        View view = new View(false, 30, 160); // TODO: arg orientation vertical
         Controller controller = new Controller(model, view);
         
         controller.run();
