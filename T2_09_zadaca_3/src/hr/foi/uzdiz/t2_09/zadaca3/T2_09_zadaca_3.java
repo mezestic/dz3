@@ -11,31 +11,30 @@ import hr.foi.uzdiz.t2_09.zadaca3.mvc.View;
 
 /**
  *
- * @author Melita
+ * @author T2_09
  */
 public class T2_09_zadaca_3 {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {     
-        
-        
+    public static void main(String[] args) {
+
         ProvjeraParametara.provjeri(args);
-        
-         int brojRedaka = Integer.parseInt(args[0]);
+
+        int brojRedaka = Integer.parseInt(args[0]);
         int brojStupaca = Integer.parseInt(args[1]);
         char podjelaOkvira = args[2].charAt(0);
         String direktorij = args[3];
         int brSekundi = Integer.parseInt(args[4]);
-        
+
         Model model = new Model(direktorij);
         View view = new View(true, 30, 160); // TODO: arg orientation vertical
         Controller controller = new Controller(model, view);
-        
+
         controller.run();
     }
-    
+
 //    static void postavi(int x, int y) {
 //        System.out.print(ANSI_ESC + x + ";" + y + "f");
 //    }
@@ -49,5 +48,4 @@ public class T2_09_zadaca_3 {
 //        } catch (InterruptedException ex) {
 //        }
 //    }
-    
 }
