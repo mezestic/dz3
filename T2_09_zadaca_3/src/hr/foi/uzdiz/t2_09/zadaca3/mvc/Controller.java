@@ -20,8 +20,8 @@ public class Controller {
     }
     
     public void run() {
-        String choice;
-        while(true) {
+        String choice = "";
+        while(!choice.equalsIgnoreCase("Q")) {
             this.view.cleanScreen();
             this.view.printMenu();
             choice = this.view.requestChoice();
