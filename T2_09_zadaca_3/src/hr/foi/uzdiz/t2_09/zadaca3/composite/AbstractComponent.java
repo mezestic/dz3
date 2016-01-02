@@ -5,10 +5,28 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.composite;
 
+import java.util.List;
+
 /**
  *
  * @author mezestic
  */
-public class AbstractComponent {
-    
+public interface AbstractComponent {
+      void add(AbstractComponent file);
+
+    List<AbstractComponent> getFiles();
+
+    void remove(AbstractComponent file);
+
+    AbstractComponent getChild(int i);
+
+    void addChild(AbstractComponent file);
+
+    List<AbstractComponent> getChildren();
+
+    void addParent(AbstractComponent file);
+
+    List<AbstractComponent> getParents();
+
+    void print();
 }

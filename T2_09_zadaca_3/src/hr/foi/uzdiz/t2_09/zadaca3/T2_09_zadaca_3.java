@@ -18,33 +18,16 @@ public class T2_09_zadaca_3 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {        
-//        System.out.print(ANSI_ESC + "2J");
-//        int i = 1;
-//        int j = 80;
-//        for (; i < 38; i++) {
-//            prikazi(i, 2 * i, 31, "*");
-//        }
-//        for (; j > 1; j=j - 2) {
-//            prikazi(i, j, 32, "-");
-//        }
-//        for (; i > 1; i--) {
-//            prikazi(i, (80 - (2 * i)), 33, "+");
-//        }
-//        for (j = 80; j > 1;j=j - 2) {
-//            prikazi(i, j, 37, "#");
-//        }
-//        System.out.print(ANSI_ESC + "41;1f");
-//        System.out.print(ANSI_ESC + "31m" + "Crvena " + ANSI_ESC + "33m" + "Zelena " + ANSI_ESC + "32m" + "Plava" + 
-//                ANSI_ESC + "0m");
-//        for (int k=30; k < 38; k++) {
-//            prikazi(42, k - 29, k, "@");
-//        }
+    public static void main(String[] args) {     
         
-//        if (args.length != 5) {
-//            System.out.println("");
-//            return;
-//        }
+        
+        ProvjeraParametara.provjeri(args);
+        
+         int brojRedaka = Integer.parseInt(args[0]);
+        int brojStupaca = Integer.parseInt(args[1]);
+        char podjelaOkvira = args[2].charAt(0);
+        String direktorij = args[3];
+        int brSekundi = Integer.parseInt(args[4]);
         
         Model model = new Model();
         View view = new View(true); // TODO: arg orientation vertical

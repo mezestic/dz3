@@ -5,10 +5,62 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.composite;
 
+import java.util.List;
+
 /**
  *
- * @author mezestic
+ * @author vvadjune
  */
-public class FileComponent {
-    
+public class FileComponent implements AbstractComponent {
+
+    private String ime;
+    private String tip;
+    private String vrijemeKreiranja;
+    private String vrijemePromjene;
+    private int velicina;
+
+    @Override
+    public void add(AbstractComponent file) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<AbstractComponent> getFiles() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void remove(AbstractComponent file) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AbstractComponent getChild(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addChild(AbstractComponent file) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<AbstractComponent> getChildren() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addParent(AbstractComponent file) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<AbstractComponent> getParents() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void print() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
