@@ -5,28 +5,27 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.composite;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author mezestic
  */
-public interface AbstractComponent {
-      void add(AbstractComponent file);
+public abstract class AbstractComponent {
 
-    List<AbstractComponent> getFiles();
-
-    void remove(AbstractComponent file);
-
-    AbstractComponent getChild(int i);
-
-    void addChild(AbstractComponent file);
-
-    List<AbstractComponent> getChildren();
-
-    void addParent(AbstractComponent file);
-
-    List<AbstractComponent> getParents();
-
-    void print();
+      public String ime;
+    public String tip;
+    public String vrijemeKreiranja;
+    public String vrijemePromjene;
+    
+     public AbstractComponent(){}
+    
+     
+     public AbstractComponent(String ime, String tip, String vrijemeKreiranja, String  vrijemePromjene) {
+        this.ime = ime;
+        this.tip = tip;
+        this.vrijemeKreiranja = vrijemeKreiranja;
+        this.vrijemePromjene = vrijemePromjene;
+    }
 }

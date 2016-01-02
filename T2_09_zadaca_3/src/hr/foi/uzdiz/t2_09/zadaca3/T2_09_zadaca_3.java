@@ -29,7 +29,7 @@ public class T2_09_zadaca_3 {
         String direktorij = args[3];
         int brSekundi = Integer.parseInt(args[4]);
         
-        Model model = new Model();
+        Model model = new Model(direktorij);
         View view = new View(true); // TODO: arg orientation vertical
         Controller controller = new Controller(model, view);
         

@@ -5,61 +5,27 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.composite;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author mezestic
  */
-public class FolderComponent implements AbstractComponent {
+public class FolderComponent extends AbstractComponent {
 
-    private String ime;
-    private String tip;
-    private String vrijemeKreiranja;
-    private String vrijemePromjene;
+    //direktorij
+    public List<FolderComponent> children = new ArrayList<FolderComponent>();
 
-    @Override
-    public void add(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public FolderComponent() {
     }
 
-    @Override
-    public List<AbstractComponent> getFiles() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public FolderComponent(String ime, String tip, String vrijemeKreiranja, String vrijemePromjene) {
+        super(ime, tip, vrijemeKreiranja, vrijemePromjene);
     }
 
-    @Override
-    public void remove(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AbstractComponent getChild(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addChild(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<AbstractComponent> getChildren() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addParent(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<AbstractComponent> getParents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void print() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addChild(FolderComponent component) {
+        children.add(component);
     }
 }

@@ -11,56 +11,15 @@ import java.util.List;
  *
  * @author vvadjune
  */
-public class FileComponent implements AbstractComponent {
+public class FileComponent extends AbstractComponent {
 
-    private String ime;
-    private String tip;
-    private String vrijemeKreiranja;
-    private String vrijemePromjene;
     private int velicina;
-
-    @Override
-    public void add(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    
+    
+    public FileComponent(String ime, String tip, String vrijemeKreiranja, String vrijemePromjene, int velicina) {
+        super(ime, tip, vrijemeKreiranja, vrijemePromjene);
+        this.velicina=velicina;
     }
 
-    @Override
-    public List<AbstractComponent> getFiles() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void remove(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AbstractComponent getChild(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addChild(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<AbstractComponent> getChildren() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addParent(AbstractComponent file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<AbstractComponent> getParents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void print() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
