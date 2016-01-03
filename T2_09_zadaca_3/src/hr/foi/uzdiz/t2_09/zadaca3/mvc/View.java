@@ -8,6 +8,7 @@ package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import java.awt.Point;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * @author mezestic
  */
 public class View {
-    
+
     private static final String ANSI_ESC = "\033[";
     private Point primaryCursorPos;
     private Point secondaryCursorPos;
@@ -28,16 +29,16 @@ public class View {
         this.vertical = vertical;
         this.rowNum = rowNum;
         this.colNum = colNum;
-        
+
         this.primaryCursorPos = this.getPrimaryStart();
         this.secondaryCursorPos = this.getSecondaryStart();
-        
+
         this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
-    
+
     public void cleanScreen() {
         System.out.print(ANSI_ESC + "2J");
-        
+
         if (this.vertical) {
             for (int i = 0; i < this.rowNum; i++) {
                 this.setCursorPos(new Point(this.getSecondaryStart().x - 1, i));
@@ -51,18 +52,18 @@ public class View {
             }
             this.printLnOut(sb.toString());
         }
-        
+
         this.setCursorPos(new Point(0, this.inputCursorPos.y - 1));
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < this.colNum; i++) {
             sb.append("-");
         }
         this.printLnOut(sb.toString());
-        
+
         this.primaryCursorPos = this.getPrimaryStart();
         this.secondaryCursorPos = this.getSecondaryStart();
     }
-    
+
     public void cleanPrimaryScreen() {
         for (int i = 0; i < this.getPrimaryEnd().y + 1; i++) {
             this.setCursorPos(new Point(0, i));
@@ -70,10 +71,10 @@ public class View {
                 this.printLnOut(" ");
             }
         }
-        
+
         this.primaryCursorPos = this.getPrimaryStart();
     }
-    
+
     public void cleanSecondaryScreen() {
         for (int i = 0; i < this.getSecondaryEnd().y + 1; i++) {
             this.setCursorPos(new Point(0, i));
@@ -81,16 +82,16 @@ public class View {
                 this.printLnOut(" ");
             }
         }
-        
+
         this.secondaryCursorPos = this.getSecondaryStart();
     }
-    
+
     public void cleanInputScreen() {
         this.setCursorPos(new Point(0, this.inputCursorPos.y));
         for (int j = 0; j < this.colNum; j++) {
             this.printLnOut(" ");
         }
-        
+
         this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
 
@@ -116,45 +117,45 @@ public class View {
         this.cleanInputScreen();
         return option;
     }
-    
-    private void printLn(String line){
+
+    private void printLn(String line) {
         this.printLnToPrimary(line);
     }
-    
-    private void printLn(String line, boolean primary){
+
+    private void printLn(String line, boolean primary) {
         if (primary) {
             this.printLnToPrimary(line);
         } else {
             this.printLnToSecondary(line);
         }
     }
-    
-    private void printLnToPrimary(String line){
+
+    private void printLnToPrimary(String line) {
         this.setCursorPos(this.primaryCursorPos);
         this.printLnOut(line);
         this.primaryCursorPos.y += 1;
     }
-    
-    private void printLnToSecondary(String line){
+
+    private void printLnToSecondary(String line) {
         this.setCursorPos(this.secondaryCursorPos);
         this.printLnOut(line);
         this.secondaryCursorPos.y += 1;
     }
-    
-    private void printLnToInput(String line){
+
+    private void printLnToInput(String line) {
         this.setCursorPos(this.inputCursorPos);
         this.printLnOut(line);
         this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
-    
-    private void printLnOut(String line){
+
+    private void printLnOut(String line) {
         System.out.print(line);
     }
-    
-    private void setCursorPos(Point pos){
+
+    private void setCursorPos(Point pos) {
         System.out.print(ANSI_ESC + (pos.y + 1) + ";" + (pos.x + 1) + "f");
     }
-    
+
     private Point getScreenPos(boolean primary, boolean start) {
         if (primary) {
             return this.getPrimaryPos(start);
@@ -170,7 +171,7 @@ public class View {
             return this.getPrimaryEnd();
         }
     }
-    
+
     private Point getSecondaryPos(boolean start) {
         if (start) {
             return this.getSecondaryStart();
@@ -206,20 +207,20 @@ public class View {
             return new Point(this.colNum - 1, this.rowNum);
         }
     }
-    
+
     public void printStructure(FolderComponent composite, String tab) {
         this.cleanPrimaryScreen();
-        this.printLnToInput("ISPIS STRUKTURE");
+        this.printLnToInput("ISPIS STRUKTURE\n");
         this.ispisStrukture(composite, tab);
     }
 
     public void ispisStrukture(FolderComponent composite, String tab) {
         for (AbstractComponent c : composite.children) {
-            this.printLnToPrimary(String.format("%-60s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + c.vrijemePromjeneKreiranja + "   " + c.velicina);
+            this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + c.velicina);
             if (c.tip.equals("direktorij")) {
                 ispisStrukture((FolderComponent) c, tab + "   ");
             }
         }
     }
-    
+
 }
