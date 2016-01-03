@@ -5,8 +5,11 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 
+import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
+import hr.foi.uzdiz.t2_09.zadaca3.iterator.FileRepository;
+import hr.foi.uzdiz.t2_09.zadaca3.iterator.Iterator;
 import java.io.File;
 import java.util.Date;
 
@@ -35,20 +38,18 @@ public class Controller {
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
         File[] listFile = new File(dir).listFiles();
+        long ukupna_velicina = 0;
         for (File f : listFile) {
+
             if (f.isDirectory()) {
-                FolderComponent child = new FolderComponent(f.getName(), "direktorij", new Date(f.lastModified()),f.length());
+                FolderComponent child = new FolderComponent(f.getName(), "direktorij", new Date(f.lastModified()), ukupna_velicina);
                 composite.addChild(child);
                 kreirajStrukturu(f.getAbsolutePath(), child);
             } else {
+                ukupna_velicina += f.length();
                 composite.addChild(new FileComponent(f.getName(), "datoteka", new Date(f.lastModified()), f.length()));
             }
         }
-    }
-
-    public void ispisStrukture() {
-
-        this.view.printStructure(model.getState(), "");
     }
 
     public void run() {
@@ -57,7 +58,6 @@ public class Controller {
         while (!choice.equalsIgnoreCase("Q")) {
             this.view.printMenu();
             choice = this.view.requestChoice();
-
             this.executeChoice(choice);
         }
     }
@@ -67,7 +67,20 @@ public class Controller {
             case "1":
                 break;
             case "2":
-                ispisStrukture();
+                this.view.printStructure(model.getState(), "");
+
+                /*
+             //   PREKO ITERATORA
+                FileRepository namesRepository = new FileRepository(model.getState());
+                for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+                    AbstractComponent ac = (AbstractComponent) iter.next();
+                    System.out.println(ac.ime);
+                    System.out.println(ac.tip);
+                     System.out.println(ac.vrijemePromjeneKreiranja);
+                    System.out.println(ac.velicina);
+                }
+*/
+                choice = this.view.requestChoice();
                 break;
             default:
 
