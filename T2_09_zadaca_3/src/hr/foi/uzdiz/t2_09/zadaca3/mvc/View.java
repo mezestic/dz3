@@ -62,16 +62,16 @@ public class View {
     }
 
     public void printMenu() {
-        this.printLn("-1 - ispis ukupnog broja direktorija i datoteka u strukturi");
-        this.printLn("-2 - ispis sadržaja strukture direktorija i datoteka");
-        this.printLn("-3 - izvršavanje dretve (prikaz u 1. prozoru)");
-        this.printLn("-4 - prekid izvršavanja dretve");
-        this.printLn("-5 - ispis informacija o svim spremljenim stanjima ");
+        this.printLn("-1  -  ispis ukupnog broja direktorija i datoteka u strukturi");
+        this.printLn("-2  -  ispis sadržaja strukture direktorija i datoteka");
+        this.printLn("-3  -  izvršavanje dretve");
+        this.printLn("-4  -  prekid izvršavanja dretve");
+        this.printLn("-5  -  ispis informacija o svim spremljenim stanjima");
         this.printLn("-6 n - postavljanje stanja strukture na promjenu s rednim brojem n");
         this.printLn("-7 m - uspoređivanje trenutnog stanja strukture i promjene s rednim brojem m");
-        this.printLn("-8 - ponovno učitavanje strukture uz poništavanje svih spremljenih stanja strukture");
-        this.printLn("-9 - dodana vlastita funkcionalnost");
-        this.printLn("-Q - prekid rada programa.");
+        this.printLn("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih stanja strukture");
+        this.printLn("-9  -  dodana vlastita funkcionalnost");
+        this.printLn("-Q  -  prekid rada programa.");
     }
 
     public String requestChoice() {

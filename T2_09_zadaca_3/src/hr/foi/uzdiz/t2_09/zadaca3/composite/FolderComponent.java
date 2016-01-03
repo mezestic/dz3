@@ -11,21 +11,21 @@ import java.util.List;
 
 /**
  *
- * @author mezestic
+ * @author vvadjune
  */
 public class FolderComponent extends AbstractComponent {
 
     //direktorij
-    public List<FolderComponent> children = new ArrayList<FolderComponent>();
+    public List<AbstractComponent> children = new ArrayList<AbstractComponent>();
 
     public FolderComponent() {
     }
 
-    public FolderComponent(String ime, String tip, String vrijemeKreiranja, String vrijemePromjene) {
-        super(ime, tip, vrijemeKreiranja, vrijemePromjene);
+    public FolderComponent(String ime, String tip, Date vrijemePromjeneKreiranja, long velicina) {
+        super(ime, tip, vrijemePromjeneKreiranja, velicina);
     }
 
-    public void addChild(FolderComponent component) {
+    public void addChild(AbstractComponent component) {
         children.add(component);
     }
 }
