@@ -5,7 +5,6 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 
-import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import java.io.File;
@@ -49,22 +48,13 @@ public class Controller {
 
     public void ispisStrukture() {
 
-        ispisStrukture(model.getState(), "");
-    }
-
-    private void ispisStrukture(FolderComponent composite, String tab) {
-        for (AbstractComponent c : composite.children) {
-            System.out.println(String.format("%-60s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + c.vrijemePromjeneKreiranja + "   " + c.velicina);
-            if (c.tip.equals("direktorij")) {
-                ispisStrukture((FolderComponent) c, tab + "   ");
-            }
-        }
+        this.view.printStructure(model.getState(), "");
     }
 
     public void run() {
         String choice = "";
+        this.view.cleanScreen();
         while (!choice.equalsIgnoreCase("Q")) {
-          //  this.view.cleanScreen();
             this.view.printMenu();
             choice = this.view.requestChoice();
 
@@ -77,7 +67,6 @@ public class Controller {
             case "1":
                 break;
             case "2":
-                System.out.println("ISPIS STRUKTURE");
                 ispisStrukture();
                 break;
             default:

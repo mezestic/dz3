@@ -29,7 +29,7 @@ public class T2_09_zadaca_3 {
         int brSekundi = Integer.parseInt(args[4]);
 
         Model model = new Model(direktorij);
-        View view = new View(true, 30, 160); // TODO: arg orientation vertical
+        View view = new View(podjelaOkvira == 'V', brojRedaka, brojStupaca);
         Controller controller = new Controller(model, view);
 
         controller.run();
