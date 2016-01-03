@@ -9,6 +9,7 @@ import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import java.awt.Point;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -132,6 +133,7 @@ public class View {
 
     private void printLnToPrimary(String line) {
         this.setCursorPos(this.primaryCursorPos);
+        //      System.out.print(Constants.ANSI_ESC + color + "m");
         this.printLnOut(line);
         this.primaryCursorPos.y += 1;
     }
@@ -208,11 +210,13 @@ public class View {
         }
     }
 
+    //------------------ ISPISI ............
     public void printStructure(FolderComponent composite, String tab) {
         this.cleanPrimaryScreen();
         this.printLnToInput("ISPIS STRUKTURE\n");
         this.ispisStrukture(composite, tab);
     }
+  
 
     public void ispisStrukture(FolderComponent composite, String tab) {
         for (AbstractComponent c : composite.children) {
@@ -223,4 +227,11 @@ public class View {
         }
     }
 
+      public void printNumberofElements(long direktorij, long datoteke ) {
+        this.cleanPrimaryScreen();
+        this.printLnToInput("ISPIS KOLICINE ELEMENATA\n");
+       this.printLnToPrimary("Ukupni broj datoteka "+datoteke+"\n");
+       this.printLnToPrimary("Ukupni broj direktorija "+direktorij+"\n");
+    }
+    
 }

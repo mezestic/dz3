@@ -22,12 +22,25 @@ public class Controller {
     private Model model;
     private View view;
 
+    private long brojDirektorija = 0;
+    private long brojFajlova = 0;
+
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
         kreirajStrukturu();
     }
 
+      public void run() {
+        String choice = "";
+        this.view.cleanScreen();
+        while (!choice.equalsIgnoreCase("Q")) {
+            this.view.printMenu();
+            choice = this.view.requestChoice();
+            this.executeChoice(choice);
+        }
+    }
+      
     public void kreirajStrukturu() {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
@@ -38,11 +51,11 @@ public class Controller {
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
         File[] listFile = new File(dir).listFiles();
+        File file = new File(dir);
         long ukupna_velicina = 0;
         for (File f : listFile) {
-
             if (f.isDirectory()) {
-                FolderComponent child = new FolderComponent(f.getName(), "direktorij", new Date(f.lastModified()), ukupna_velicina);
+                FolderComponent child = new FolderComponent(f.getName(), "direktorij", new Date(f.lastModified()), velicinaDirektorija(file));
                 composite.addChild(child);
                 kreirajStrukturu(f.getAbsolutePath(), child);
             } else {
@@ -52,39 +65,59 @@ public class Controller {
         }
     }
 
-    public void run() {
-        String choice = "";
-        this.view.cleanScreen();
-        while (!choice.equalsIgnoreCase("Q")) {
-            this.view.printMenu();
-            choice = this.view.requestChoice();
-            this.executeChoice(choice);
+    private long velicinaDirektorija(File directory) {
+        long size = 0;
+        for (File file : directory.listFiles()) {
+            if (file.isFile()) {
+                size += file.length();
+            } else {
+                size += velicinaDirektorija(file);
+            }
+        }
+        return size;
+    }
+
+    public void brojElemenata() {
+        brojDirektorija = 0;
+        brojFajlova = 0;
+        izracunajBrojElemenata(model.getState());
+    }
+
+    public void izracunajBrojElemenata(FolderComponent composite) {
+        for (AbstractComponent c : composite.children) {
+            if (c.tip.equals("direktorij")) {
+                brojDirektorija++;
+                izracunajBrojElemenata((FolderComponent) c);
+            } else {
+                brojFajlova++;
+            }
         }
     }
+
 
     private void executeChoice(String choice) {
         switch (choice) {
             case "1":
+                brojElemenata();
+                this.view.printNumberofElements(brojDirektorija, brojFajlova);
+                choice = this.view.requestChoice();
                 break;
             case "2":
                 this.view.printStructure(model.getState(), "");
-
                 /*
-             //   PREKO ITERATORA
-                FileRepository namesRepository = new FileRepository(model.getState());
-                for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
-                    AbstractComponent ac = (AbstractComponent) iter.next();
-                    System.out.println(ac.ime);
-                    System.out.println(ac.tip);
-                     System.out.println(ac.vrijemePromjeneKreiranja);
-                    System.out.println(ac.velicina);
-                }
-*/
+                 //   PREKO ITERATORA
+                 FileRepository namesRepository = new FileRepository(model.getState());
+                 for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+                 AbstractComponent ac = (AbstractComponent) iter.next();
+                 System.out.println(ac.ime);
+                 System.out.println(ac.tip);
+                 System.out.println(ac.vrijemePromjeneKreiranja);
+                 System.out.println(ac.velicina);
+                 }
+                 */
                 choice = this.view.requestChoice();
                 break;
             default:
-
         }
     }
-
 }
