@@ -8,10 +8,11 @@ package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
-import hr.foi.uzdiz.t2_09.zadaca3.iterator.FileRepository;
-import hr.foi.uzdiz.t2_09.zadaca3.iterator.Iterator;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,38 +29,36 @@ public class Controller {
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        this.view.cleanScreen();
         kreirajStrukturu();
     }
 
-      public void run() {
+    public void run() {
         String choice = "";
-        this.view.cleanScreen();
         while (!choice.equalsIgnoreCase("Q")) {
             this.view.printMenu();
             choice = this.view.requestChoice();
             this.executeChoice(choice);
         }
     }
-      
+
     public void kreirajStrukturu() {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
-        System.out.println("--> Struktura direktorija ucitana <--");
         model.set(structure);
+        view.ispisStrukture(model.getState(), "", true);
         //  caretaker.addMemento(m.saveToMemento());
     }
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
         File[] listFile = new File(dir).listFiles();
         File file = new File(dir);
-        long ukupna_velicina = 0;
         for (File f : listFile) {
             if (f.isDirectory()) {
                 FolderComponent child = new FolderComponent(f.getName(), "direktorij", new Date(f.lastModified()), velicinaDirektorija(file));
                 composite.addChild(child);
                 kreirajStrukturu(f.getAbsolutePath(), child);
             } else {
-                ukupna_velicina += f.length();
                 composite.addChild(new FileComponent(f.getName(), "datoteka", new Date(f.lastModified()), f.length()));
             }
         }
@@ -94,7 +93,6 @@ public class Controller {
         }
     }
 
-
     private void executeChoice(String choice) {
         switch (choice) {
             case "1":
@@ -104,6 +102,7 @@ public class Controller {
                 break;
             case "2":
                 this.view.printStructure(model.getState(), "");
+
                 /*
                  //   PREKO ITERATORA
                  FileRepository namesRepository = new FileRepository(model.getState());
