@@ -5,6 +5,8 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 
+import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
+import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -38,11 +40,11 @@ public class View {
         
         if (this.vertical) {
             for (int i = 0; i < this.rowNum; i++) {
-                this.setCursorPos(new Point(((int) this.colNum / 2) + 1, i));
+                this.setCursorPos(new Point(this.getSecondaryStart().x - 1, i));
                 this.printLnOut("|");
             }
         } else {
-            this.setCursorPos(new Point(0, ((int) this.rowNum / 2) + 1));
+            this.setCursorPos(new Point(0, this.getPrimaryEnd().y + 1));
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < this.colNum; i++) {
                 sb.append("-");
@@ -60,8 +62,40 @@ public class View {
         this.primaryCursorPos = this.getPrimaryStart();
         this.secondaryCursorPos = this.getSecondaryStart();
     }
+    
+    public void cleanPrimaryScreen() {
+        for (int i = 0; i < this.getPrimaryEnd().y + 1; i++) {
+            this.setCursorPos(new Point(0, i));
+            for (int j = 0; j < this.getPrimaryEnd().x + 1; j++) {
+                this.printLnOut(" ");
+            }
+        }
+        
+        this.primaryCursorPos = this.getPrimaryStart();
+    }
+    
+    public void cleanSecondaryScreen() {
+        for (int i = 0; i < this.getSecondaryEnd().y + 1; i++) {
+            this.setCursorPos(new Point(0, i));
+            for (int j = 0; j < this.getSecondaryEnd().x + 1; j++) {
+                this.printLnOut(" ");
+            }
+        }
+        
+        this.secondaryCursorPos = this.getSecondaryStart();
+    }
+    
+    public void cleanInputScreen() {
+        this.setCursorPos(new Point(0, this.inputCursorPos.y));
+        for (int j = 0; j < this.colNum; j++) {
+            this.printLnOut(" ");
+        }
+        
+        this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
+    }
 
     public void printMenu() {
+        this.cleanPrimaryScreen();
         this.printLn("-1  -  ispis ukupnog broja direktorija i datoteka u strukturi");
         this.printLn("-2  -  ispis sadržaja strukture direktorija i datoteka");
         this.printLn("-3  -  izvršavanje dretve");
@@ -69,7 +103,8 @@ public class View {
         this.printLn("-5  -  ispis informacija o svim spremljenim stanjima");
         this.printLn("-6 n - postavljanje stanja strukture na promjenu s rednim brojem n");
         this.printLn("-7 m - uspoređivanje trenutnog stanja strukture i promjene s rednim brojem m");
-        this.printLn("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih stanja strukture");
+        this.printLn("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih ");
+        this.printLn("\t stanja strukture");
         this.printLn("-9  -  dodana vlastita funkcionalnost");
         this.printLn("-Q  -  prekid rada programa.");
     }
@@ -78,6 +113,7 @@ public class View {
         this.setCursorPos(this.inputCursorPos);
         Scanner inputReader = new Scanner(System.in);
         String option = inputReader.nextLine();
+        this.cleanInputScreen();
         return option;
     }
     
@@ -103,6 +139,12 @@ public class View {
         this.setCursorPos(this.secondaryCursorPos);
         this.printLnOut(line);
         this.secondaryCursorPos.y += 1;
+    }
+    
+    private void printLnToInput(String line){
+        this.setCursorPos(this.inputCursorPos);
+        this.printLnOut(line);
+        this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
     
     private void printLnOut(String line){
@@ -151,9 +193,9 @@ public class View {
 
     private Point getSecondaryStart() {
         if (this.vertical) {
-            return new Point(0, ((int) this.colNum / 2) + 1);
+            return new Point(((int) this.colNum / 2) + 1, 0);
         } else {
-            return new Point(((int) this.rowNum / 2) + 1, 0);
+            return new Point(0, ((int) this.rowNum / 2) + 1);
         }
     }
 
@@ -162,6 +204,21 @@ public class View {
             return new Point(this.colNum, this.rowNum - 1);
         } else {
             return new Point(this.colNum - 1, this.rowNum);
+        }
+    }
+    
+    public void printStructure(FolderComponent composite, String tab) {
+        this.cleanPrimaryScreen();
+        this.printLnToInput("ISPIS STRUKTURE");
+        this.ispisStrukture(composite, tab);
+    }
+
+    public void ispisStrukture(FolderComponent composite, String tab) {
+        for (AbstractComponent c : composite.children) {
+            this.printLnToPrimary(String.format("%-60s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + c.vrijemePromjeneKreiranja + "   " + c.velicina);
+            if (c.tip.equals("direktorij")) {
+                ispisStrukture((FolderComponent) c, tab + "   ");
+            }
         }
     }
     
