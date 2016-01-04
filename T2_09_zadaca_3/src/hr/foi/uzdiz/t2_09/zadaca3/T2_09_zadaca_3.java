@@ -27,8 +27,9 @@ public class T2_09_zadaca_3 {
         char podjelaOkvira = args[2].charAt(0);
         String direktorij = args[3];
         int brSekundi = Integer.parseInt(args[4]);
+      
 
-        Model model = new Model(direktorij);
+        Model model = new Model(direktorij,brSekundi);
         View view = new View(podjelaOkvira == 'V', brojRedaka, brojStupaca);
         Controller controller = new Controller(model, view);
 

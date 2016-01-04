@@ -15,14 +15,21 @@ import java.util.Date;
  * @author mezestic
  */
 public class Model {
- 
+     private static int brojSekundi;
+
+    
      private String direktorij;
       private FolderComponent state;
 
-    public Model(String direktorij) {
+    public Model(String direktorij, int brojSekundi) {
      this.direktorij=direktorij;
+     this.brojSekundi=brojSekundi;
     }
 
+    public static int getBrojSekundi() {
+        return brojSekundi;
+    }
+    
     public String getDirektorij() {
         return direktorij;
     }
