@@ -18,7 +18,7 @@ public class Model {
      private static int brojSekundi;
 
     
-     private String direktorij;
+     private   String direktorij;
       private static FolderComponent state;
 
     public Model(String direktorij, int brojSekundi) {
@@ -33,7 +33,7 @@ public class Model {
         return brojSekundi;
     }
     
-    public String getDirektorij() {
+    public  String getDirektorij() {
         return direktorij;
     }
     

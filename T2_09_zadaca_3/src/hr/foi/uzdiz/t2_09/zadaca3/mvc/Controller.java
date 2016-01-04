@@ -48,7 +48,7 @@ public class Controller {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
         model.set(structure);
-//        view.ispisStrukture(model.getState(), "", true);
+        view.ispisStrukture(model.getState(), "", true);
         //  caretaker.addMemento(m.saveToMemento());
     }
 

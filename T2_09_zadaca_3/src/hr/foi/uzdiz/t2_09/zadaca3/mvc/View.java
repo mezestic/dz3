@@ -109,7 +109,7 @@ public class View {
 
     ///------------------------ PRINT------------------------------
     public void printMenu() {
-        this.cleanPrimaryScreen();
+    /*    this.cleanPrimaryScreen();
         this.printLn("-1  -  ispis ukupnog broja direktorija i datoteka u strukturi");
         this.printLn("-2  -  ispis sadržaja strukture direktorija i datoteka");
         this.printLn("-3  -  izvršavanje dretve");
@@ -120,7 +120,7 @@ public class View {
         this.printLn("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih ");
         this.printLn("\t stanja strukture");
         this.printLn("-9  -  dodana vlastita funkcionalnost");
-        this.printLn("-Q  -  prekid rada programa.");
+        this.printLn("-Q  -  prekid rada programa."); */
     }
 
     public String requestChoice() {
@@ -260,7 +260,7 @@ public class View {
         this.cleanSecondaryScreen();
         this.cleanPrimaryScreen();
         this.printLnToInput("ISPIS STRUKTURE\n");
-        this.ispisStrukture(composite, tab, true);
+        this.ispisStrukture(composite, tab, false);
     }
 
     public void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
