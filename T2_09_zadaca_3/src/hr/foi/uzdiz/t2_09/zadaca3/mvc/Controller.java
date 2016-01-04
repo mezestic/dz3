@@ -48,7 +48,7 @@ public class Controller {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
         model.set(structure);
-        view.ispisStrukture(model.getState(), "", true);
+//        view.ispisStrukture(model.getState(), "", true);
         //  caretaker.addMemento(m.saveToMemento());
     }
 
@@ -121,7 +121,7 @@ public class Controller {
                 choice = this.view.requestChoice();
                 break;
             case "3":
-                 dt = new Dretva(model.getBrojSekundi(), this);
+                dt = new Dretva(model.getBrojSekundi(), this);
                 dt.start();
                 choice = this.view.requestChoice();
                 break;
