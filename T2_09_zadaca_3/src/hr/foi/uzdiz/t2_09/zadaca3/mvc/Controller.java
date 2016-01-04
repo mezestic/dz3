@@ -5,6 +5,7 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 
+import hr.foi.uzdiz.t2_09.zadaca3.Dretva;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class Controller {
 
+    Dretva dt;
     private Model model;
     private View view;
 
@@ -114,6 +116,15 @@ public class Controller {
                  System.out.println(ac.velicina);
                  }
                  */
+                choice = this.view.requestChoice();
+                break;
+            case "3":
+                 dt = new Dretva(model.getBrojSekundi(), this);
+                dt.start();
+                choice = this.view.requestChoice();
+                break;
+            case "4":
+                dt.interrupt();
                 choice = this.view.requestChoice();
                 break;
             default:

@@ -8,6 +8,7 @@ package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import java.awt.Point;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -240,14 +241,14 @@ public class View {
 
     //------------------ ISPISI ............
     public void printStructure(FolderComponent composite, String tab) {
-         this.cleanSecondaryScreen();
+        this.cleanSecondaryScreen();
         this.cleanPrimaryScreen();
         this.printLnToInput("ISPIS STRUKTURE\n");
         this.ispisStrukture(composite, tab, false);
     }
 
     public void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
-
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         for (AbstractComponent c : composite.children) {
             String boja;
             if (c.tip.equals("direktorij")) {
@@ -255,9 +256,11 @@ public class View {
                 setColor("33");
             } else {
                 brojDatoteka++;
+                ukupnaVelicina += c.velicina;
                 setColor("35");
             }
-            this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + c.velicina);
+
+            this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + myFormatter.format(c.velicina) + " B");
             if (updateSecond) {
                 try {
                     Thread.sleep(1 * 1000);
@@ -267,7 +270,7 @@ public class View {
                 this.cleanSecondaryScreen();
                 this.printLnToSecondary("Broj dodanih datoteka: " + brojDatoteka);
                 this.printLnToSecondary("Broj dodanih direktorija: " + brojDirektorija);
-                this.printLnToSecondary("Test3");
+                this.printLnToSecondary("Ukupna velicina: " + myFormatter.format(ukupnaVelicina) + " B");
             }
             if (c.tip.equals("direktorij")) {
                 ispisStrukture((FolderComponent) c, tab + "   ", updateSecond);
