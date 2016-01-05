@@ -24,7 +24,7 @@ public class View {
 
     private static final String ANSI_ESC = "\033[";
     private static final DecimalFormat MY_FORMATTER = new DecimalFormat("###,###.###");
-    
+
     private Point primaryCursorPos;
     private Point secondaryCursorPos;
     private Point inputCursorPos;
@@ -77,7 +77,7 @@ public class View {
     }
 
     public void cleanPrimaryScreen() {
-        for (int i = 0; i < this.getPrimaryEnd().y + 1; i++) {
+        for (int i = this.getPrimaryStart().y; i < this.getPrimaryEnd().y + 1; i++) {
             this.setCursorPos(new Point(0, i));
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < this.getPrimaryEnd().x + 1; j++) {
@@ -90,7 +90,7 @@ public class View {
     }
 
     public void cleanSecondaryScreen() {
-        for (int i = 0; i < this.getSecondaryEnd().y + 1; i++) {
+        for (int i = this.getSecondaryStart().y; i < this.getSecondaryEnd().y + 1; i++) {
             this.setCursorPos(new Point(this.getSecondaryStart().x, i));
             StringBuilder sb = new StringBuilder();
             for (int j = this.getSecondaryStart().x; j < this.getSecondaryEnd().x + 1; j++) {
@@ -269,7 +269,7 @@ public class View {
             return new Point(this.colNum - 1, this.rowNum);
         }
     }
-    
+
     private Point getInputStart() {
         return new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
@@ -292,7 +292,7 @@ public class View {
         FileRepository namesRepository = new FileRepository(composite);
         for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
             AbstractComponent c = (AbstractComponent) iter.next();
-            
+
             String boja;
             if (c.tip.equals("direktorij")) {
                 brojDirektorija++;
@@ -306,7 +306,7 @@ public class View {
             this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + MY_FORMATTER.format(c.velicina) + " B");
             if (updateSecond) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(250);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
