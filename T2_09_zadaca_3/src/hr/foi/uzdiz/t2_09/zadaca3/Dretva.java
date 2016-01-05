@@ -10,8 +10,10 @@ import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.Controller;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.Model;
+import hr.foi.uzdiz.t2_09.zadaca3.mvc.View;
 import java.io.File;
 import static java.lang.Thread.sleep;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class Dretva extends Thread {
     int interval;
     Controller c;
 
+    private static volatile String threadOutputBuffer = "";
+
     public Dretva(int interval, Controller controller) {
         this.c = controller;
         this.interval = interval;
@@ -47,29 +51,37 @@ public class Dretva extends Thread {
 
     @Override
     public void run() {
+        
+      //  MVC
+       //  Model model = new Model("",22);
+       // View view = new View(true, 22, 22);
+       // Controller controller = new Controller(model, view);
+        
+        
         while (runing) {
             long startTimer = System.currentTimeMillis();
 
             System.out.println("Dretva pokrenuta!");
 
-            FolderComponent old = Model.getState();
-            FolderComponent recent = kreirajStrukturu(); 
-            
-             ispisStrukture(old, "", false);
-                  ispisStrukture(recent, "", false);
-            
+            threadOutputBuffer = "";
 
+            FolderComponent old = Model.getState();
+            FolderComponent recent = kreirajStrukturu();
+
+         //    ispisStrukture(old, "", false);
+            //         ispisStrukture(recent, "", false);
             if (compareScans(old, recent, 1)) {
                 System.out.println("IMA PROMJENE");
                 //  Backup.addToBackup(Reader.rootFolder);
                 //   Reader.rootFolder = recent;
+                System.out.println(threadOutputBuffer);
 
             } else {
-                System.out.println("NEMA PROMJENE");
+                System.out.println("NEMA PROMJENE"); // ISPISATI NA ZASLON 2 Ako nije bilo promjene ispisuje se na 1. prozoru da nije bilo promjene (vrijeme, tekst).
                 //  ScanThread.setThreadOutputBuffer(Reader.getCurrentTime() + "\t" + "Nema promjene u strukturi\n");
             }
 
-            //   model.getState();
+            //   todo ZAPAMTITI STANJE
             long trajanje = System.currentTimeMillis() - startTimer;
 
             System.out.println("SPAVA!");
@@ -89,10 +101,10 @@ public class Dretva extends Thread {
     public static boolean compareScans(FolderComponent old, FolderComponent recent, int bufferIndex) {
         boolean changed = false;
 
-        if (compareScans(old, recent, false, new ArrayList<>(), "- obrisano", bufferIndex)) {
-            changed = true;
-        }
-        if (compareScans(recent, old, false, new ArrayList<>(), "+ dodano", bufferIndex)) {
+    //    if (compareScans(old, recent, false, new ArrayList<>(), "- obrisano", bufferIndex)) {
+        //       changed = true;
+        //    }
+        if (compareScans(recent, old, false, new ArrayList<>(), "-> PREIMENOVANO", bufferIndex)) {
             changed = true;
         }
 
@@ -105,7 +117,8 @@ public class Dretva extends Thread {
             if (fileEntry.tip.equals("direktorij")) {
                 path.add(fileEntry.ime);
                 changed = compareScans((FolderComponent) fileEntry, recent, changed, path, mess, bufferIndex);
-                System.out.println("Changed0: "+changed);
+
+                //  System.out.println("Changed0: "+changed);
                 path.remove(path.size() - 1);
             }
             path.add(fileEntry.ime);
@@ -113,55 +126,76 @@ public class Dretva extends Thread {
             for (String s : path) {
                 fullPath += "/" + s;
             }
-            String text = " Vrijeme " + "\t" + fullPath + "\t";
+
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+            Date date = new Date();
+          
+            String text = dateFormat.format(date) + "\t" + fullPath + "\t";
             boolean print = false;
+
             int ret = findInPath(recent, -1, path, 0, fileEntry.vrijemePromjeneKreiranja);
-            System.out.println("RET: "+ret);
+            //  System.out.println("RETURENED: "+ret);
             if (ret == -1) {
                 changed = true;
-                System.out.println("Changed1: "+changed);
+                //  System.out.println("Changed1: "+changed);
                 print = true;
                 text += mess + "\n";
-            } else if (ret == -1 && mess.charAt(0) == '+') { //   ret == 1 && mess.charAt(0) == '+'
+                //   break;
+            } else if (ret == 1 && mess.charAt(0) == '-') {
                 changed = true;
-                System.out.println("Changed2: "+changed);
                 print = true;
-                text += "* izmjenjeno" + "\n";
-            }
-        /*    if (print) {
+                if (fileEntry.tip.equals("direktorij")) {
+                    text = "";
+
+                } else {
+                    text += "* IZMJENJEN SADRZAJ FAJLA" + "\n";
+                    //  break;
+                }
+               //   text += "* izmjenjeno" + "\n";
+
+            } // Ako je došlo do bilo koje promjene u odnosu na prethodni sadržaj strukture potrebno je u 2. prozoru ispisati informaciju (vrijeme provjere, putanja, naziv elementa, vrsta promjene).
+
+            if (print) {
+                threadOutputBuffer += text;
                 switch (bufferIndex) {
                     case 1:
                   //      ScanThread.setThreadOutputBuffer(text);
+                        //  threadOutputBuffer+=text;
                         break;
                     case 2:
-                    //    Reader.setOutputBuffer(text);
+                        threadOutputBuffer += text;
+                        //    Reader.setOutputBuffer(text);
                         break;
                 }
                 text = "";
-            }  */
+            }
             path.remove(path.size() - 1);
+
         }
        //   */ 
-        System.out.println("Changed3: "+changed);
+        // System.out.println("Changed OVERAL: "+changed);
         return changed;
     }
-    
-     private static int findInPath(FolderComponent file, int found, ArrayList<String> path, int index, Date lastMod) {
+
+    private static int findInPath(FolderComponent file, int found, ArrayList<String> path, int index, Date lastMod) {
         String findName = path.get(index);
         for (AbstractComponent fileEntry : file.children) {
             if (fileEntry.ime.equals(findName)) {
                 if ((index + 1) == path.size()) {
-                    if (fileEntry.vrijemePromjeneKreiranja == lastMod) {
-                        System.out.println("IZMEJENJENO");
+                    if (fileEntry.vrijemePromjeneKreiranja.equals(lastMod)) {
                         return 0;
                     } else {
+                        System.out.println("MOD");
                         return 1;
                     }
                 } else if (fileEntry.tip.equals("direktorij")) {
-                    found = findInPath((FolderComponent)fileEntry, found, path, index + 1, lastMod);
+                    found = findInPath((FolderComponent) fileEntry, found, path, index + 1, lastMod);
                 } else {
+                    System.out.println("DEL");
+
                     return -1;
                 }
+
             }
         }
         return found;
@@ -191,19 +225,13 @@ public class Dretva extends Thread {
             }
         }
     }
-    
-    
-       
-    
 
     public void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         for (AbstractComponent c : composite.children) {
-          
-           
 
             System.out.println(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + myFormatter.format(c.velicina) + " B");
-           
+
             if (c.tip.equals("direktorij")) {
                 ispisStrukture((FolderComponent) c, tab + "   ", updateSecond);
             }

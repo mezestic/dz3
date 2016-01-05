@@ -49,7 +49,7 @@ public class Controller {
         kreirajStrukturu(model.getDirektorij(), structure);
         model.set(structure);
         view.ispisStrukture(model.getState(), "", true);
-        //  caretaker.addMemento(m.saveToMemento());
+       //   caretaker.addMemento(m.saveToMemento());
     }
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
