@@ -47,8 +47,8 @@ public class Controller {
     public void kreirajStrukturu() {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
-        model.set(structure);
-//        view.ispisStrukture(model.getState(), "", true);
+        this.model.set(structure);
+        this.view.printStructure(model.getState(), "", true);
         //  caretaker.addMemento(m.saveToMemento());
     }
 
@@ -100,32 +100,20 @@ public class Controller {
             case "1":
                 brojElemenata();
                 this.view.printNumberofElements(brojDirektorija, brojFajlova);
-                choice = this.view.requestChoice();
+                this.view.requestChoice();
                 break;
             case "2":
-                this.view.printStructure(model.getState(), "");
-
-                /*
-                 //   PREKO ITERATORA
-                 FileRepository namesRepository = new FileRepository(model.getState());
-                 for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
-                 AbstractComponent ac = (AbstractComponent) iter.next();
-                 System.out.println(ac.ime);
-                 System.out.println(ac.tip);
-                 System.out.println(ac.vrijemePromjeneKreiranja);
-                 System.out.println(ac.velicina);
-                 }
-                 */
-                choice = this.view.requestChoice();
+                this.view.printStructure(model.getState(), "", true);
+                this.view.requestChoice();
                 break;
             case "3":
                 dt = new Dretva(model.getBrojSekundi(), this);
                 dt.start();
-                choice = this.view.requestChoice();
+                this.view.requestChoice();
                 break;
             case "4":
                 dt.interrupt();
-                choice = this.view.requestChoice();
+                this.view.requestChoice();
                 break;
             default:
         }
