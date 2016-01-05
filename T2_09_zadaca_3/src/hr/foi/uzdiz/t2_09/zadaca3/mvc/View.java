@@ -7,6 +7,8 @@ package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
+import hr.foi.uzdiz.t2_09.zadaca3.iterator.FileRepository;
+import hr.foi.uzdiz.t2_09.zadaca3.iterator.Iterator;
 import java.awt.Point;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,8 @@ import java.util.logging.Logger;
 public class View {
 
     private static final String ANSI_ESC = "\033[";
+    private static final DecimalFormat MY_FORMATTER = new DecimalFormat("###,###.###");
+    
     private Point primaryCursorPos;
     private Point secondaryCursorPos;
     private Point inputCursorPos;
@@ -40,7 +44,7 @@ public class View {
         this.primaryCursorPos = this.getPrimaryStart();
         this.secondaryCursorPos = this.getSecondaryStart();
 
-        this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
+        this.inputCursorPos = this.getInputStart();
     }
 //---------CLEAN--------------------------
 
@@ -99,28 +103,34 @@ public class View {
     }
 
     public void cleanInputScreen() {
-        this.setCursorPos(new Point(0, this.inputCursorPos.y));
-        for (int j = 0; j < this.colNum; j++) {
-            this.printLnOut(" ");
+        this.inputCursorPos = this.getInputStart();
+        for (int i = 0; i < 12; i++) { // 11 = max input print rows
+            this.setCursorPos(new Point(0, this.inputCursorPos.y));
+            StringBuffer sb = new StringBuffer();
+            for (int j = 0; j < this.colNum; j++) {
+                sb.append(" ");
+            }
+            this.printLnOut(sb.toString());
+            this.inputCursorPos.y += 1;
         }
 
-        this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
+        this.inputCursorPos = this.getInputStart();
     }
 
     ///------------------------ PRINT------------------------------
     public void printMenu() {
-    /*    this.cleanPrimaryScreen();
-        this.printLn("-1  -  ispis ukupnog broja direktorija i datoteka u strukturi");
-        this.printLn("-2  -  ispis sadržaja strukture direktorija i datoteka");
-        this.printLn("-3  -  izvršavanje dretve");
-        this.printLn("-4  -  prekid izvršavanja dretve");
-        this.printLn("-5  -  ispis informacija o svim spremljenim stanjima");
-        this.printLn("-6 n - postavljanje stanja strukture na promjenu s rednim brojem n");
-        this.printLn("-7 m - uspoređivanje trenutnog stanja strukture i promjene s rednim brojem m");
-        this.printLn("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih ");
-        this.printLn("\t stanja strukture");
-        this.printLn("-9  -  dodana vlastita funkcionalnost");
-        this.printLn("-Q  -  prekid rada programa."); */
+        this.cleanInputScreen();
+        this.printLnToInput("-1  -  ispis ukupnog broja direktorija i datoteka u strukturi");
+        this.printLnToInput("-2  -  ispis sadržaja strukture direktorija i datoteka");
+        this.printLnToInput("-3  -  izvršavanje dretve");
+        this.printLnToInput("-4  -  prekid izvršavanja dretve");
+        this.printLnToInput("-5  -  ispis informacija o svim spremljenim stanjima");
+        this.printLnToInput("-6 n - postavljanje stanja strukture na promjenu s rednim brojem n");
+        this.printLnToInput("-7 m - uspoređivanje trenutnog stanja strukture i promjene s rednim brojem m");
+        this.printLnToInput("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih ");
+        this.printLnToInput("\t stanja strukture");
+        this.printLnToInput("-9  -  dodana vlastita funkcionalnost");
+        this.printLnToInput("-Q  -  prekid rada programa.");
     }
 
     public String requestChoice() {
@@ -184,9 +194,18 @@ public class View {
     }
 
     public void printLnToInput(String line) {
-        this.setCursorPos(this.inputCursorPos);
-        this.printLnOut(line);
-        this.inputCursorPos = new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
+        while (line != null && line.length() > 0) {
+            this.setCursorPos(this.inputCursorPos);
+            int rowSize = this.colNum;
+            int end = rowSize > line.length() ? line.length() : rowSize;
+            this.printLnOut(line.substring(0, end));
+            this.inputCursorPos.y += 1;
+            if (end < line.length()) {
+                line = line.substring(end);
+            } else {
+                line = null;
+            }
+        }
     }
 
     private void printLnOut(String line) {
@@ -250,22 +269,30 @@ public class View {
             return new Point(this.colNum - 1, this.rowNum);
         }
     }
+    
+    private Point getInputStart() {
+        return new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
+    }
 
     public void setColor(String boja) {
         System.out.print(ANSI_ESC + boja + "m");
     }
 
     //------------------ ISPISI ............
-    public void printStructure(FolderComponent composite, String tab) {
+    public void printStructure(FolderComponent composite, String tab, boolean updateSecond) {
         this.cleanSecondaryScreen();
         this.cleanPrimaryScreen();
         this.printLnToInput("ISPIS STRUKTURE\n");
-        this.ispisStrukture(composite, tab, false);
+        this.ispisStrukture(composite, tab, updateSecond);
+        this.cleanInputScreen();
+        this.printLnToInput("Pritisnite <ENTER> za povratak: ");
     }
 
-    public void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
-        for (AbstractComponent c : composite.children) {
+    private void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
+        FileRepository namesRepository = new FileRepository(composite);
+        for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+            AbstractComponent c = (AbstractComponent) iter.next();
+            
             String boja;
             if (c.tip.equals("direktorij")) {
                 brojDirektorija++;
@@ -276,7 +303,7 @@ public class View {
                 setColor("35");
             }
 
-            this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + myFormatter.format(c.velicina) + " B");
+            this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + MY_FORMATTER.format(c.velicina) + " B");
             if (updateSecond) {
                 try {
                     Thread.sleep(500);
@@ -286,7 +313,7 @@ public class View {
                 this.cleanSecondaryScreen();
                 this.printLnToSecondary("Broj dodanih datoteka: " + brojDatoteka);
                 this.printLnToSecondary("Broj dodanih direktorija: " + brojDirektorija);
-                this.printLnToSecondary("Ukupna velicina: " + myFormatter.format(ukupnaVelicina) + " B");
+                this.printLnToSecondary("Ukupna velicina: " + MY_FORMATTER.format(ukupnaVelicina) + " B");
             }
             if (c.tip.equals("direktorij")) {
                 ispisStrukture((FolderComponent) c, tab + "   ", updateSecond);
@@ -300,6 +327,8 @@ public class View {
         this.printLnToInput("ISPIS KOLICINE ELEMENATA\n");
         this.printLnToPrimary("Ukupni broj datoteka " + datoteke);
         this.printLnToPrimary("Ukupni broj direktorija " + direktorij);
+        this.cleanInputScreen();
+        this.printLnToInput("Pritisnite <ENTER> za povratak: ");
     }
 
 }
