@@ -18,19 +18,22 @@ public class Model {
      private static int brojSekundi;
 
     
-     private String direktorij;
-      private FolderComponent state;
+     private   String direktorij;
+      private static FolderComponent state;
 
     public Model(String direktorij, int brojSekundi) {
      this.direktorij=direktorij;
      this.brojSekundi=brojSekundi;
+    }
+    public Model() {
+    
     }
 
     public static int getBrojSekundi() {
         return brojSekundi;
     }
     
-    public String getDirektorij() {
+    public  String getDirektorij() {
         return direktorij;
     }
     
@@ -39,7 +42,7 @@ public class Model {
        this.state = state; 
    }
 
-    public FolderComponent getState() {
+    public static FolderComponent getState() {
         return state;
     }
    
