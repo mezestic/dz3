@@ -52,10 +52,11 @@ public class Dretva extends Thread {
     @Override
     public void run() {
         
-      //  MVC
-       //  Model model = new Model("",22);
-       // View view = new View(true, 22, 22);
-       // Controller controller = new Controller(model, view);
+     
+         Model model = new Model(T2_09_zadaca_3.direktorij,T2_09_zadaca_3.brSekundi);
+        View view = new View(true, T2_09_zadaca_3.brojRedaka, T2_09_zadaca_3.brojStupaca);
+       Controller controller = new Controller(model, view);
+       
         
         
         while (runing) {
@@ -208,7 +209,7 @@ public class Dretva extends Thread {
 
     public FolderComponent kreirajStrukturu() {
         FolderComponent structure = new FolderComponent();
-        kreirajStrukturu(T2_09_zadaca_3.direktorij1, structure);
+        kreirajStrukturu(T2_09_zadaca_3.direktorij, structure);
         return structure;
     }
 

@@ -32,7 +32,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         this.view.cleanScreen();
-        kreirajStrukturu();
+       // kreirajStrukturu();
     }
 
     public void run() {
