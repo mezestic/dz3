@@ -15,43 +15,43 @@ import java.util.Date;
  * @author mezestic
  */
 public class Model {
-     private static int brojSekundi;
 
-    
-     private   String direktorij;
-      private static FolderComponent state;
+    private static int brojSekundi;
+
+    private String direktorij;
+    private static FolderComponent state;
 
     public Model(String direktorij, int brojSekundi) {
-     this.direktorij=direktorij;
-     this.brojSekundi=brojSekundi;
+        this.direktorij = direktorij;
+        this.brojSekundi = brojSekundi;
     }
+
     public Model() {
-    
+
     }
 
     public static int getBrojSekundi() {
         return brojSekundi;
     }
-    
-    public  String getDirektorij() {
+
+    public String getDirektorij() {
         return direktorij;
     }
-    
 
-   public void set(FolderComponent state) {
-       this.state = state; 
-   }
+    public void set(FolderComponent state) {
+        this.state = state;
+    }
 
     public static FolderComponent getState() {
         return state;
     }
-   
-   public Memento saveToMemento() { 
-       return new Memento(state, new Date()); 
-   }
-   
-   public void restoreFromMemento(Memento m) {
-       state = m.getSavedState();
-   }
-      
+
+    public Memento saveToMemento() {
+        return new Memento(state, new Date());
+    }
+
+    public void restoreFromMemento(Memento m) {
+        state = m.getSavedState();
+    }
+
 }

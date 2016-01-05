@@ -69,7 +69,7 @@ public class Dretva extends Thread {
             FolderComponent old = Model.getState();
             FolderComponent recent = kreirajStrukturu();
 
-         //    ispisStrukture(old, "", false);
+            //    ispisStrukture(old, "", false);
             //         ispisStrukture(recent, "", false);
             if (compareScans(old, recent, 1)) {
                 System.out.println("IMA PROMJENE");
@@ -102,7 +102,7 @@ public class Dretva extends Thread {
     public static boolean compareScans(FolderComponent old, FolderComponent recent, int bufferIndex) {
         boolean changed = false;
 
-    //    if (compareScans(old, recent, false, new ArrayList<>(), "- obrisano", bufferIndex)) {
+        //    if (compareScans(old, recent, false, new ArrayList<>(), "- obrisano", bufferIndex)) {
         //       changed = true;
         //    }
         if (compareScans(recent, old, false, new ArrayList<>(), "-> PREIMENOVANO", bufferIndex)) {
@@ -130,7 +130,7 @@ public class Dretva extends Thread {
 
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
             Date date = new Date();
-          
+
             String text = dateFormat.format(date) + "\t" + fullPath + "\t";
             boolean print = false;
 
@@ -152,7 +152,7 @@ public class Dretva extends Thread {
                     text += "* IZMJENJEN SADRZAJ FAJLA" + "\n";
                     //  break;
                 }
-               //   text += "* izmjenjeno" + "\n";
+                //   text += "* izmjenjeno" + "\n";
 
             } // Ako je došlo do bilo koje promjene u odnosu na prethodni sadržaj strukture potrebno je u 2. prozoru ispisati informaciju (vrijeme provjere, putanja, naziv elementa, vrsta promjene).
 
@@ -160,7 +160,7 @@ public class Dretva extends Thread {
                 threadOutputBuffer += text;
                 switch (bufferIndex) {
                     case 1:
-                  //      ScanThread.setThreadOutputBuffer(text);
+                        //      ScanThread.setThreadOutputBuffer(text);
                         //  threadOutputBuffer+=text;
                         break;
                     case 2:
@@ -173,7 +173,7 @@ public class Dretva extends Thread {
             path.remove(path.size() - 1);
 
         }
-       //   */ 
+        //   */ 
         // System.out.println("Changed OVERAL: "+changed);
         return changed;
     }
