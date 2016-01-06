@@ -24,22 +24,33 @@ public class T2_09_zadaca_3 {
     public static char podjelaOkvira;
     public static int brSekundi;
 
+    private static Controller controller;
+
     public static void main(String[] args) {
 
         ProvjeraParametara.provjeri(args);
 
         brojRedaka = Integer.parseInt(args[0]);
         brojStupaca = Integer.parseInt(args[1]);
-        podjelaOkvira = args[2].charAt(0);
+        if (args[2].charAt(0) == 'V') {
+            podjelaOkvira = 'V';
+        } else {
+            podjelaOkvira = 'O';
+        }
+
         direktorij = args[3];
         brSekundi = Integer.parseInt(args[4]);
 
         Model model = new Model(direktorij, brSekundi);
         View view = new View(podjelaOkvira == 'V', brojRedaka, brojStupaca);
-        Controller controller = new Controller(model, view);
+        controller = new Controller(model, view);
         controller.kreirajStrukturu();
         controller.run();
-        
+
+    }
+
+    public static Controller getController() {
+        return controller;
     }
 
 }

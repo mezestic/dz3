@@ -10,10 +10,7 @@ import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -32,7 +29,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         this.view.cleanScreen();
-       // kreirajStrukturu();
+        // kreirajStrukturu();
     }
 
     public void run() {
@@ -50,6 +47,7 @@ public class Controller {
         this.model.set(structure);
         this.view.printStructure(model.getState(), "", true);
         //  caretaker.addMemento(m.saveToMemento());
+
     }
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
@@ -103,11 +101,11 @@ public class Controller {
                 this.view.requestChoice();
                 break;
             case "2":
-                this.view.printStructure(model.getState(), "", true);
+                this.view.printStructure(model.getState(), "", false);
                 this.view.requestChoice();
                 break;
             case "3":
-                dt = new Dretva(model.getBrojSekundi(), this);
+                dt = new Dretva(model.getBrojSekundi(), this, view);
                 dt.start();
                 this.view.requestChoice();
                 break;
@@ -118,4 +116,5 @@ public class Controller {
             default:
         }
     }
+
 }
