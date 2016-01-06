@@ -13,10 +13,9 @@ import java.util.Date;
  * @author vedra
  */
 public class Memento {
-
-    private FolderComponent state;
+      private FolderComponent state;
     private Date timeOfSave;
-
+    
     public Date getTimeOfSave() {
         return timeOfSave;
     }
@@ -24,7 +23,7 @@ public class Memento {
     public Memento(FolderComponent stateToSave, Date timeOfSave) {
         this.timeOfSave = timeOfSave;
         this.state = new FolderComponent(stateToSave.ime, stateToSave.tip, stateToSave.vrijemePromjeneKreiranja, stateToSave.velicina);
-        //  copyState(stateToSave, state);
+      //  copyState(stateToSave, state);
     }
 
     public FolderComponent getSavedState() {

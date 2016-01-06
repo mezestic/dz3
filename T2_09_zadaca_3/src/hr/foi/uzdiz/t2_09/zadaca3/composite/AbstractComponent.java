@@ -7,24 +7,25 @@ package hr.foi.uzdiz.t2_09.zadaca3.composite;
 
 import java.util.Date;
 
+
 /**
  *
  * @author vvadjune
  */
 public abstract class AbstractComponent {
 
-    public String ime;
+      public String ime;
     public String tip;
     public Date vrijemePromjeneKreiranja;
     public long velicina;
-
-    public AbstractComponent() {
-    }
-
-    public AbstractComponent(String ime, String tip, Date vrijemePromjeneKreiranja, long velicina) {
+    
+     public AbstractComponent(){}
+    
+     
+     public AbstractComponent(String ime, String tip, Date vrijemePromjeneKreiranja,long velicina) {
         this.ime = ime;
         this.tip = tip;
         this.vrijemePromjeneKreiranja = vrijemePromjeneKreiranja;
-        this.velicina = velicina;
+        this.velicina=velicina;
     }
 }
