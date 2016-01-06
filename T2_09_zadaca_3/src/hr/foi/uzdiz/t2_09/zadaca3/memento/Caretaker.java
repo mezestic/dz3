@@ -6,6 +6,7 @@
 package hr.foi.uzdiz.t2_09.zadaca3.memento;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,6 +17,10 @@ public class Caretaker {
 
     public ArrayList<Memento> getSavedStates() {
         return savedStates;
+    }
+    
+    public void setSavedStates(ArrayList<Memento> states) {
+        this.savedStates = states;
     }
     
     public void addMemento(Memento m) {
