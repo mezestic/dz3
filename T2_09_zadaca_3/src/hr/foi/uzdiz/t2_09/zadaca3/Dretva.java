@@ -138,7 +138,7 @@ public class Dretva extends Thread {
         return promjena;
     }
 
-    private static int prondji(FolderComponent file, int pronadjen, ArrayList<String> putanja, int index, Date zadnjaPromjena) {
+    public static int prondji(FolderComponent file, int pronadjen, ArrayList<String> putanja, int index, Date zadnjaPromjena) {
         String findName = putanja.get(index);
         for (AbstractComponent fileEntry : file.children) {
             if (fileEntry.ime.equals(findName)) {

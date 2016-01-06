@@ -31,10 +31,8 @@ public class View {
     private boolean vertical;
     private int rowNum;
     private int colNum;
-    
-    private static boolean unos=false;
 
-   
+    private static boolean unos = false;
 
     private int brojDirektorija = 0;
     private int brojDatoteka = 0;
@@ -50,8 +48,8 @@ public class View {
 
         this.inputCursorPos = this.getInputStart();
     }
-    
-     public static void setUnos(boolean unos) {
+
+    public static void setUnos(boolean unos) {
         View.unos = unos;
     }
 //---------CLEAN--------------------------
@@ -218,11 +216,10 @@ public class View {
 
     private void printLnOut(String line) {
         System.out.print(line);
-        if(!unos){
-                 setColor("33");
+        if (!unos) {
+            setColor("33");
         }
-    
-        
+
     }
 
     ///----------- SET / GET ----------------
