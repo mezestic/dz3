@@ -9,7 +9,10 @@ import hr.foi.uzdiz.t2_09.zadaca3.Dretva;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
+import hr.foi.uzdiz.t2_09.zadaca3.memento.Caretaker;
+import hr.foi.uzdiz.t2_09.zadaca3.memento.Memento;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -22,6 +25,8 @@ public class Controller {
     private Model model;
     private View view;
 
+    Caretaker caretaker = new Caretaker();
+
     private long brojDirektorija = 0;
     private long brojFajlova = 0;
 
@@ -30,6 +35,10 @@ public class Controller {
         this.view = view;
         this.view.cleanScreen();
         // kreirajStrukturu();
+    }
+
+    public ArrayList<Memento> getMementos() {
+        return caretaker.getSavedStates();
     }
 
     public void run() {
@@ -46,7 +55,7 @@ public class Controller {
         kreirajStrukturu(model.getDirektorij(), structure);
         this.model.set(structure);
         this.view.printStructure(model.getState(), "", true);
-        //  caretaker.addMemento(m.saveToMemento());
+        caretaker.addMemento(model.saveToMemento());
 
     }
 
@@ -111,6 +120,19 @@ public class Controller {
                 break;
             case "4":
                 dt.interrupt();
+                this.view.requestChoice();
+                break;
+            case "5":
+                //  ispis stanja - redni broj i vrijeme spremanja  
+                // todo U načelu stvar funkcionira ali treba sloziti da dretva sprema stanja i da ih ovdje dohvatim (za sada imamo samo jedno spremljeno stanje - ono prilikom ucitavanja)
+                ArrayList<Memento> mementos = getMementos();
+                for (int i = 0; i < mementos.size(); i++) {
+                    System.out.println(i + 1 + "\t" + mementos.get(i).getTimeOfSave());
+                }
+                this.view.requestChoice();
+                break;
+            case "6":
+                // 
                 this.view.requestChoice();
                 break;
             default:
