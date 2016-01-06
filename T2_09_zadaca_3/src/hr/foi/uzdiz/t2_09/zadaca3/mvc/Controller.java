@@ -61,7 +61,7 @@ public class Controller {
         this.model.set(structure);
         this.view.printStructure(model.getState(), "", true);
         caretaker.addMemento(model.saveToMemento());
-
+      //  return structure;
     }
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
@@ -120,7 +120,7 @@ public class Controller {
                 this.view.requestChoice();
                 break;
             case "3":
-                dt = new Dretva(model.getBrojSekundi(), this, view);
+                dt = new Dretva(model.getBrojSekundi(), this, view, model, caretaker);
                 dt.start();
                 this.view.requestChoice();
                 break;

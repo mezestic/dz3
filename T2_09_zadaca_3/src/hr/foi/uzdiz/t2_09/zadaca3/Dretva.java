@@ -8,6 +8,7 @@ package hr.foi.uzdiz.t2_09.zadaca3;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
+import hr.foi.uzdiz.t2_09.zadaca3.memento.Caretaker;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.Controller;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.Model;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.View;
@@ -29,13 +30,17 @@ public class Dretva extends Thread {
     int interval;
     Controller controller;
     View view;
+    Model model;
+    Caretaker caretaker;
 
     private static volatile String output = "";
 
-    public Dretva(int interval, Controller controller, View view) {
+    public Dretva(int interval, Controller controller, View view, Model model, Caretaker caretaker) {
         this.controller = controller;
         this.interval = interval;
         this.view = view;
+        this.model = model;
+        this.caretaker=caretaker;
     }
 
     @Override
@@ -61,7 +66,7 @@ public class Dretva extends Thread {
             long startTimer = System.currentTimeMillis();
             output = "";
             view.setColor("32");
-            FolderComponent stari = Model.getState();
+            FolderComponent stari = model.getState();
             FolderComponent trenutni = kreirajStrukturu();
 
             if (compareScans(stari, trenutni)) {
@@ -72,8 +77,9 @@ public class Dretva extends Thread {
                 view.printLnToPrimary(dateFormat.format(date) + "\tNEMA PROMJENE U STRUKTURI");
             }
 
-            Model m = new Model();
-            m.set(trenutni);
+           // Model m = new Model();
+            model.set(trenutni);
+            caretaker.addMemento(model.saveToMemento());
             stari = trenutni;
 
             long trajanje = System.currentTimeMillis() - startTimer;
@@ -93,6 +99,9 @@ public class Dretva extends Thread {
     public static boolean compareScans(FolderComponent stari, FolderComponent trenutni) {
         boolean promjena = false;
         if (compareScans(stari, trenutni, false, new ArrayList<>(), "-> OBRISANO") && compareScans(trenutni, stari, false, new ArrayList<>(), "-> PREIMENOVANO/DODANO")) {
+            promjena = true;
+        }
+        if (compareScans(trenutni, stari, false, new ArrayList<>(), "-> PREIMENOVANO/DODANO")) {
             promjena = true;
         }
         return promjena;
