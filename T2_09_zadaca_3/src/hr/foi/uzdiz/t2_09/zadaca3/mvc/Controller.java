@@ -59,9 +59,22 @@ public class Controller {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
         this.model.set(structure);
+
         this.view.printStructure(model.getState(), "", true);
-        caretaker.addMemento(model.saveToMemento());
-      //  return structure;
+        // pocetnu strukturu ne treba spremati, sprema se samo promjene
+        //caretaker.addMemento(model.saveToMemento());
+        //this.view.printStructure(caretaker.getMemento(0).getSavedState(), "", false);
+
+        //   FolderComponent structure2 = caretaker.getMemento(0).getSavedState();
+        //    for (AbstractComponent at : structure2.children){
+        //       System.out.println(at.ime);
+        //    }
+    }
+
+    public FolderComponent kreirajStrukturu(Boolean ret) {
+        FolderComponent structure = new FolderComponent();
+        kreirajStrukturu(model.getDirektorij(), structure);
+        return structure;
     }
 
     private void kreirajStrukturu(String dir, FolderComponent composite) {
@@ -108,7 +121,7 @@ public class Controller {
     }
 
     private void executeChoice(String choice) {
-        ArrayList<Memento> savedMementos = this.getMementos();
+
         switch (choice) {
             case "1":
                 brojElemenata();
@@ -129,11 +142,11 @@ public class Controller {
                 this.view.requestChoice();
                 break;
             case "5":
-                //  ispis stanja - redni broj i vrijeme spremanja  
-                // todo U načelu stvar funkcionira ali treba sloziti da dretva sprema stanja i da ih ovdje dohvatim (za sada imamo samo jedno spremljeno stanje - ono prilikom ucitavanja)
                 ArrayList<Memento> mementos = getMementos();
+                DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd:MM.yyyy");
+                view.cleanPrimaryScreen();
                 for (int i = 0; i < mementos.size(); i++) {
-                    System.out.println(i + 1 + "\t" + mementos.get(i).getTimeOfSave());
+                    view.printLnToPrimary(i + 1 + ".\tPromjena\t" + dateFormat.format(mementos.get(i).getTimeOfSave()));
                 }
                 this.view.requestChoice();
                 break;
@@ -141,36 +154,71 @@ public class Controller {
 //                // 
 //                this.view.requestChoice();
 //                break;[
-            case "8":
-                this.model.set(savedMementos.get(0).getSavedState());
-                this.caretaker.setSavedStates(new ArrayList<Memento>(savedMementos.subList(0, 1)));
-                this.view.printStructure(Model.getState(), "", false);
-                this.view.cleanInputScreen();
-                this.view.printLnToInput("Pritisnite <ENTER> za povratak");
+
+            case "7":
+                //    int oldState = 2;
+                /*
+                 FolderComponent trenutno = this.kreirajStrukturu();
+                 FolderComponent staro = savedMementos.get(oldState).getSavedState();
+                 String changeText = Controller.compareScans(savedMementos.get(oldState).getSavedState(), Model.getState());
+                 this.view.cleanPrimaryScreen();
+                 this.view.printLnToPrimary(changeText);
+                
+                 */
+
                 this.view.requestChoice();
-                break;
-            default: 
+            /*   case "8":
+             this.model.set(savedMementos.get(0).getSavedState());
+             this.caretaker.setSavedStates(new ArrayList<Memento>(savedMementos.subList(0, 1)));
+             this.view.printStructure(Model.getState(), "", false);
+             this.view.cleanInputScreen();
+             this.view.printLnToInput("Pritisnite <ENTER> za povratak");
+             this.view.requestChoice();
+             break; */
+            default:
                 Pattern p = Pattern.compile("^(\\d) (\\d{1,3})$");
                 Matcher m = p.matcher(choice);
-                if(m.matches()) {
+                if (m.matches()) {
+
                     this.view.cleanPrimaryScreen();
-                    switch(m.group(1)) {
+                    ArrayList<Memento> savedMementos = this.getMementos();
+                    switch (m.group(1)) {
+
                         case "6":
                             int newStateNum = Integer.parseInt(m.group(2));
+
                             if (newStateNum >= savedMementos.size()) {
                                 this.view.printLnToPrimary("Stanje s tim rednim brojem ne postoji!");
                             } else {
                                 this.model.set(savedMementos.get(newStateNum).getSavedState());
-                                this.view.printStructure(Model.getState(), "", false);
+                                this.view.printStructure(model.getState(), "", false);
                             }
                             break;
                         case "7":
+
                             int oldState = Integer.parseInt(m.group(2));
                             if (oldState >= savedMementos.size()) {
                                 this.view.printLnToPrimary("Stanje s tim rednim brojem ne postoji!");
                             } else {
-                                String changeText = Controller.compareScans(savedMementos.get(oldState).getSavedState(), Model.getState());
-                                this.view.printLnToPrimary(changeText);
+                                FolderComponent trenutno = this.kreirajStrukturu(true);
+                                FolderComponent staro = savedMementos.get(oldState).getSavedState();
+                                //  String changeText = Controller.compareScans(staro, trenutno);
+                                if (compareScans(staro, trenutno)) {
+                                    this.view.cleanPrimaryScreen();
+                                    this.view.printLnToPrimary(output);
+
+                                }
+
+                                /*
+                                 if(changeText.isEmpty()){
+                                 System.out.println("prazno");
+                                 }
+                                 else{
+                                 System.out.println("nije");
+                                 } */
+                                //  String changeText = Controller.compareScans(savedMementos.get(oldState).getSavedState(), Model.getState());
+                                // this.view.cleanPrimaryScreen();
+                                //   this.view.printLnToPrimary(changeText);
                             }
                             break;
                     }
@@ -180,19 +228,69 @@ public class Controller {
                 }
         }
     }
+    /*
+     public static String compareScans(FolderComponent stari, FolderComponent trenutni) {
+     String changeText = "";
+     Controller.compareScans(stari, trenutni, changeText, new ArrayList<>(), "-> OBRISANO");
+     Controller.compareScans(trenutni, stari, changeText, new ArrayList<>(), "-> PREIMENOVANO/DODANO");
+     return changeText;
+     }
 
-    public static String compareScans(FolderComponent stari, FolderComponent trenutni) {
-        String changeText = "";
-        Controller.compareScans(stari, trenutni, changeText, new ArrayList<>(), "-> OBRISANO");
-        Controller.compareScans(trenutni, stari, changeText, new ArrayList<>(), "-> PREIMENOVANO/DODANO");
-        return changeText;
+     private static void compareScans(FolderComponent stari, FolderComponent trenutni, String changeText, ArrayList<String> putanje, String poruka) {
+     for (AbstractComponent ac : stari.children) {
+     if (ac.tip.equals("direktorij")) {
+     putanje.add(ac.ime);
+     compareScans((FolderComponent) ac, trenutni, changeText, putanje, poruka);
+     putanje.remove(putanje.size() - 1);
+     }
+     putanje.add(ac.ime);
+     String putanjaPuna = ".";
+     for (String s : putanje) {
+     putanjaPuna += "/" + s;
+     }
+     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+     Date date = new Date();
+     String text = dateFormat.format(date) + "   " + ac.tip + "   " + putanjaPuna;
+     boolean print = false;
+     int ret = Dretva.pronadji(trenutni, -1, putanje, 0, ac.vrijemePromjeneKreiranja);
+     if (ret == -1) {
+     print = true;
+     text += poruka + "   ";
+     } else if (ret == 1) {
+     print = true;
+     if (ac.tip.equals("direktorij")) {
+     text = "";
+     } else {
+     text += "-> IZMJENJEN SADRZAJ" + "\n";
+     }
+     }
+     if (print) {
+     changeText += text;
+     text = "";
+     }
+     putanje.remove(putanje.size() - 1);
+     }
+     }
+     */
+    private static volatile String output = "";
+
+    public static boolean compareScans(FolderComponent stari, FolderComponent trenutni) {
+        boolean promjena = false;
+        if (compareScans(stari, trenutni, false, new ArrayList<>(), "-> OBRISANO")) {
+            promjena = true;
+        }
+        if (compareScans(trenutni, stari, false, new ArrayList<>(), "-> PREIMENOVANO/DODANO")) {
+            promjena = true;
+        }
+        return promjena;
     }
 
-    private static void compareScans(FolderComponent stari, FolderComponent trenutni, String changeText, ArrayList<String> putanje, String poruka) {
+    private static boolean compareScans(FolderComponent stari, FolderComponent trenutni, boolean promjena, ArrayList<String> putanje, String poruka) {
+
         for (AbstractComponent ac : stari.children) {
             if (ac.tip.equals("direktorij")) {
                 putanje.add(ac.ime);
-                compareScans((FolderComponent) ac, trenutni, changeText, putanje, poruka);
+                promjena = compareScans((FolderComponent) ac, trenutni, promjena, putanje, poruka);
                 putanje.remove(putanje.size() - 1);
             }
             putanje.add(ac.ime);
@@ -204,11 +302,13 @@ public class Controller {
             Date date = new Date();
             String text = dateFormat.format(date) + "   " + ac.tip + "   " + putanjaPuna;
             boolean print = false;
-            int ret = Dretva.prondji(trenutni, -1, putanje, 0, ac.vrijemePromjeneKreiranja);
+            int ret = pronadji(trenutni, -1, putanje, 0, ac.vrijemePromjeneKreiranja);
             if (ret == -1) {
+                promjena = true;
                 print = true;
                 text += poruka + "   ";
             } else if (ret == 1) {
+                promjena = true;
                 print = true;
                 if (ac.tip.equals("direktorij")) {
                     text = "";
@@ -217,11 +317,31 @@ public class Controller {
                 }
             }
             if (print) {
-                changeText += text;
+                output += text;
                 text = "";
             }
             putanje.remove(putanje.size() - 1);
         }
+        return promjena;
     }
 
+    public static int pronadji(FolderComponent file, int pronadjen, ArrayList<String> putanja, int index, Date zadnjaPromjena) {
+        String findName = putanja.get(index);
+        for (AbstractComponent fileEntry : file.children) {
+            if (fileEntry.ime.equals(findName)) {
+                if ((index + 1) == putanja.size()) {
+                    if (fileEntry.vrijemePromjeneKreiranja.equals(zadnjaPromjena)) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                } else if (fileEntry.tip.equals("direktorij")) {
+                    pronadjen = pronadji((FolderComponent) fileEntry, pronadjen, putanja, index + 1, zadnjaPromjena);
+                } else {
+                    return -1;
+                }
+            }
+        }
+        return pronadjen;
+    }
 }
