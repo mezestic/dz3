@@ -222,7 +222,7 @@ public class View {
     }
 
     ///----------- SET / GET ----------------
-    private void setCursorPos(Point pos) {
+    public void setCursorPos(Point pos) {
         System.out.print(ANSI_ESC + (pos.y + 1) + ";" + (pos.x + 1) + "f");
     }
 
@@ -278,7 +278,7 @@ public class View {
         }
     }
 
-    private Point getInputStart() {
+    public Point getInputStart() {
         return new Point(0, (vertical ? rowNum + 1 : rowNum + 2));
     }
 
@@ -286,9 +286,12 @@ public class View {
         System.out.print(ANSI_ESC + boja + "m");
     }
 
+    public Point getInputCursorPos() {
+        return inputCursorPos;
+    }
+
     //------------------ ISPISI ............
     public void printStructure(FolderComponent composite, String tab, boolean updateSecond) {
-     
         this.cleanPrimaryScreen();
         this.printLnToInput("ISPIS STRUKTURE\n");
         this.ispisStrukture(composite, tab, updateSecond);
@@ -297,10 +300,10 @@ public class View {
     }
 
     private void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
-     //   FileRepository namesRepository = new FileRepository(composite);
-     //   for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
-     //       AbstractComponent c = (AbstractComponent) iter.next();
-for(AbstractComponent c: composite.children){
+        // ITERATOR ZA PROLAZENJE KROZ STRUKTURU
+        FileRepository namesRepository = new FileRepository(composite);
+        for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+            AbstractComponent c = (AbstractComponent) iter.next();
             String boja;
             if (c.tip.equals("direktorij")) {
                 brojDirektorija++;

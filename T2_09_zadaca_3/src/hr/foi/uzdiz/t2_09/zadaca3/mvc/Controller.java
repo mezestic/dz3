@@ -128,19 +128,24 @@ public class Controller {
             case "3":
                 dt = new Dretva(model.getBrojSekundi(), this, view, model, caretaker);
                 dt.start();
+                  
                 this.view.requestChoice();
                 break;
             case "4":
                 dt.interrupt();
                 this.view.requestChoice();
+                this.view.printLnToInput("Pritisnite <ENTER> za povratak: ");
                 break;
             case "5":
+                 this.view.printLnToInput("-- ISPIS SPREMLJENIH STANJA --");
                 ArrayList<Memento> mementos = getMementos();
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd:MM.yyyy");
                 view.cleanPrimaryScreen();
+                view.cleanSecondaryScreen();
                 for (int i = 0; i < mementos.size(); i++) {
                     view.printLnToPrimary(i + 1 + ".\tPromjena\t" + dateFormat.format(mementos.get(i).getTimeOfSave()));
                 }
+                this.view.printLnToInput("Pritisnite <ENTER> za povratak: ");
                 this.view.requestChoice();
                 break;
             case "8":
@@ -169,6 +174,7 @@ public class Controller {
                                 this.view.printLnToPrimary("Stanje s tim rednim brojem ne postoji!");
                             } else {
                                 this.model.set(savedMementos.get(newStateNum).getSavedState());
+                                this.view.printLnToInput("-- NOVO STANJE --");
                                 this.view.printStructure(model.getState(), "", false);
                             }
                             break;

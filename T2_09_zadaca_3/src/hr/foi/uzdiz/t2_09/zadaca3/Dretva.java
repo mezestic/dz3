@@ -52,9 +52,7 @@ public class Dretva extends Thread {
         } else {
             super.interrupt(); //To change body of generated methods, choose Tools | Templates.
         }
-
     }
-    int i = 0;
 
     @Override
     public void run() {
@@ -63,6 +61,8 @@ public class Dretva extends Thread {
         view.cleanSecondaryScreen();
         view.cleanInputScreen();
         view.printLnToInput("Dretva je pokrenuta...");
+        view.printLnToInput("Pritisnite <ENTER> za povratak: ");
+        
         while (runing) {
             long startTimer = System.currentTimeMillis();
             output = "";
@@ -73,28 +73,25 @@ public class Dretva extends Thread {
             if (compareScans(stari, trenutni)) {
                 view.printLnToSecondary(output);
                 // SPREMANJE STANJA JER IMA PROMJENE
-
                 model.set(trenutni);
                 caretaker.addMemento(model.saveToMemento());
-
-                view.printStructure(caretaker.getMemento(i).getSavedState(), "", false);
-               
-                i++;
-
             } else {
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 Date date = new Date();
                 view.printLnToPrimary(dateFormat.format(date) + "\tNEMA PROMJENE U STRUKTURI");
             }
             stari = trenutni;
+             aktivna = false;
+             view.setCursorPos(view.getInputCursorPos());
             long trajanje = System.currentTimeMillis() - startTimer;
-            aktivna = false;
+           
             try {
                 sleep(interval * 1000 - trajanje);
             } catch (InterruptedException ex) {
                 view.setUnos(false);
                 view.cleanInputScreen();
-                view.printLnToInput("KRAJ DRETVE");
+                view.printLnToInput("Dretva je prekinuta...");
+                view.printLnToInput("Pritisnite <ENTER> za povratak: ");
                 runing = false;
             }
             aktivna = true;
