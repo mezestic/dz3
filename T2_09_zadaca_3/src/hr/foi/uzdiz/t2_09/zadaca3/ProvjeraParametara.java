@@ -7,17 +7,15 @@ package hr.foi.uzdiz.t2_09.zadaca3;
 
 /**
  *
- * @author vedra
+ * @author vedran
  */
 public class ProvjeraParametara {
 
     public static void provjeri(String args[]) {
-
         if (args.length != 5) {
             System.err.println("Pogresan broj parametara");
             System.exit(0);
         } else {
-
             int brojRedaka = Integer.parseInt(args[0]);
             int brojStupaca = Integer.parseInt(args[1]);
             char podjelaOkvira = args[2].charAt(0);
@@ -29,21 +27,19 @@ public class ProvjeraParametara {
                 System.exit(0);
             }
             if (brojStupaca < 80 || brojStupaca > 160) {
-                System.err.println("Broj stupaca mora biti u intervalu: 80 - 120");
+                System.err.println("Broj stupaca mora biti u intervalu: 80 - 160");
                 System.exit(0);
             }
 
             if (podjelaOkvira != 'V' && podjelaOkvira != 'O') {
-
                 System.err.println("Podjela okvira V ili O");
                 System.exit(0);
             }
 
             if (brSekundi < 1 || brSekundi > 120) {
-                System.err.println("Broj sekundi drevtve mora biti u intervalu: 1-120");
+                System.err.println("Broj sekundi drevtve mora biti u intervalu: 1 - 120");
                 System.exit(0);
             }
         }
-
     }
 }

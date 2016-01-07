@@ -8,6 +8,8 @@ package hr.foi.uzdiz.t2_09.zadaca3;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.AbstractComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
+import hr.foi.uzdiz.t2_09.zadaca3.iterator.FileRepository;
+import hr.foi.uzdiz.t2_09.zadaca3.iterator.Iterator;
 import hr.foi.uzdiz.t2_09.zadaca3.memento.Caretaker;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.Controller;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.Model;
@@ -21,7 +23,7 @@ import java.util.Date;
 
 /**
  *
- * @author vedra
+ * @author vedran
  */
 public class Dretva extends Thread {
 
@@ -62,7 +64,7 @@ public class Dretva extends Thread {
         view.cleanInputScreen();
         view.printLnToInput("Dretva je pokrenuta...");
         view.printLnToInput("Pritisnite <ENTER> za povratak: ");
-        
+
         while (runing) {
             long startTimer = System.currentTimeMillis();
             output = "";
@@ -81,10 +83,10 @@ public class Dretva extends Thread {
                 view.printLnToPrimary(dateFormat.format(date) + "\tNEMA PROMJENE U STRUKTURI");
             }
             stari = trenutni;
-             aktivna = false;
-             view.setCursorPos(view.getInputCursorPos());
+            aktivna = false;
+            view.setCursorPos(view.getInputCursorPos());
             long trajanje = System.currentTimeMillis() - startTimer;
-           
+
             try {
                 sleep(interval * 1000 - trajanje);
             } catch (InterruptedException ex) {
@@ -111,7 +113,10 @@ public class Dretva extends Thread {
 
     private static boolean compareScans(FolderComponent stari, FolderComponent trenutni, boolean promjena, ArrayList<String> putanje, String poruka) {
 
-        for (AbstractComponent ac : stari.children) {
+        FileRepository namesRepository = new FileRepository(stari);
+        for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+            AbstractComponent ac = (AbstractComponent) iter.next();
+
             if (ac.tip.equals("direktorij")) {
                 putanje.add(ac.ime);
                 promjena = compareScans((FolderComponent) ac, trenutni, promjena, putanje, poruka);
@@ -171,7 +176,6 @@ public class Dretva extends Thread {
 
     @Override
     public synchronized void start() {
-
         super.start(); //To change body of generated methods, choose Tools | Templates.
     }
 
