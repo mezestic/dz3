@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import hr.foi.uzdiz.t2_09.zadaca3.layers.FunctionalityClass;
 /**
  *
  * @author mezestic
@@ -127,6 +127,10 @@ public class Controller {
                 dt.interrupt();
                 choice = this.view.requestChoice();
                 break;
+            case "9":
+                FunctionalityClass layer= new FunctionalityClass();
+                layer.operation();
+                layer.save();
             default:
         }
     }
