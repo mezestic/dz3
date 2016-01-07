@@ -132,8 +132,9 @@ public class Controller {
                 //  ispis stanja - redni broj i vrijeme spremanja  
                 // todo U načelu stvar funkcionira ali treba sloziti da dretva sprema stanja i da ih ovdje dohvatim (za sada imamo samo jedno spremljeno stanje - ono prilikom ucitavanja)
                 ArrayList<Memento> mementos = getMementos();
+                this.view.cleanInputScreen();
                 for (int i = 0; i < mementos.size(); i++) {
-                    System.out.println(i + 1 + "\t" + mementos.get(i).getTimeOfSave());
+                    this.view.printLnToInput(i + 1 + "\t" + mementos.get(i).getTimeOfSave());
                 }
                 this.view.requestChoice();
                 break;
