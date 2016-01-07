@@ -19,6 +19,10 @@ public class Caretaker {
         return savedStates;
     }
     
+    public void setSavedStates(ArrayList<Memento> states) {
+        this.savedStates = states;
+    }
+    
     public void addMemento(Memento m) {
         savedStates.add(m);
     }
