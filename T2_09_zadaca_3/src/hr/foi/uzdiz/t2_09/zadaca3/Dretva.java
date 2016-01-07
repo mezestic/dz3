@@ -77,9 +77,6 @@ public class Dretva extends Thread {
                 model.set(trenutni);
                 caretaker.addMemento(model.saveToMemento());
 
-                view.cleanScreen();
-           
-                System.out.println("I: "+i);
                 view.printStructure(caretaker.getMemento(i).getSavedState(), "", false);
                
                 i++;

@@ -133,8 +133,7 @@ public class View {
         this.printLnToInput("-5  -  ispis informacija o svim spremljenim stanjima");
         this.printLnToInput("-6 n - postavljanje stanja strukture na promjenu s rednim brojem n");
         this.printLnToInput("-7 m - uspoređivanje trenutnog stanja strukture i promjene s rednim brojem m");
-        this.printLnToInput("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih ");
-        this.printLnToInput("\t stanja strukture");
+        this.printLnToInput("-8  -  ponovno učitavanje strukture uz poništavanje svih spremljenih stanja strukture");
         this.printLnToInput("-9  -  dodana vlastita funkcionalnost");
         this.printLnToInput("-Q  -  prekid rada programa.");
     }

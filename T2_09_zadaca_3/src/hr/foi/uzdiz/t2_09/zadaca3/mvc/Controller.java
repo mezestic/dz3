@@ -61,8 +61,7 @@ public class Controller {
         this.view.printStructure(model.getState(), "", true);
         
         // POCETNU STRUKTURU NE TREBA SPREMATI 
-        //caretaker.addMemento(model.saveToMemento());
-        //this.view.printStructure(caretaker.getMemento(0).getSavedState(), "", false);
+        caretaker.addMemento(model.saveToMemento());
     }
 
     public FolderComponent kreirajStrukturu(Boolean ret) {
@@ -185,7 +184,6 @@ public class Controller {
                                 if (compareScans(staro, trenutno)) {
                                     this.view.cleanPrimaryScreen();
                                     this.view.printLnToPrimary(output);
-
                                 }
 
                             }
