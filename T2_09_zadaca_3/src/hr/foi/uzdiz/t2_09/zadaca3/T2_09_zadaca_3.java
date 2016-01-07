@@ -24,7 +24,7 @@ public class T2_09_zadaca_3 {
     public static char podjelaOkvira;
     public static int brSekundi;
 
-    private static Controller controller;
+ 
 
     public static void main(String[] args) {
 
@@ -43,14 +43,12 @@ public class T2_09_zadaca_3 {
 
         Model model = new Model(direktorij, brSekundi);
         View view = new View(podjelaOkvira == 'V', brojRedaka, brojStupaca);
-        controller = new Controller(model, view);
+        Controller  controller = new Controller(model, view);
         controller.kreirajStrukturu();
         controller.run();
 
     }
 
-    public static Controller getController() {
-        return controller;
-    }
+    
 
 }

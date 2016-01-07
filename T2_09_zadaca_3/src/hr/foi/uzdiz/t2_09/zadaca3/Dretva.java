@@ -40,7 +40,7 @@ public class Dretva extends Thread {
         this.interval = interval;
         this.view = view;
         this.model = model;
-        this.caretaker=caretaker;
+        this.caretaker = caretaker;
     }
 
     @Override
@@ -54,6 +54,7 @@ public class Dretva extends Thread {
         }
 
     }
+    int i = 0;
 
     @Override
     public void run() {
@@ -71,17 +72,24 @@ public class Dretva extends Thread {
 
             if (compareScans(stari, trenutni)) {
                 view.printLnToSecondary(output);
+                // SPREMANJE STANJA JER IMA PROMJENE
+
+                model.set(trenutni);
+                caretaker.addMemento(model.saveToMemento());
+
+                view.cleanScreen();
+           
+                System.out.println("I: "+i);
+                view.printStructure(caretaker.getMemento(i).getSavedState(), "", false);
+               
+                i++;
+
             } else {
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 Date date = new Date();
                 view.printLnToPrimary(dateFormat.format(date) + "\tNEMA PROMJENE U STRUKTURI");
             }
-
-           // Model m = new Model();
-            model.set(trenutni);
-            caretaker.addMemento(model.saveToMemento());
             stari = trenutni;
-
             long trajanje = System.currentTimeMillis() - startTimer;
             aktivna = false;
             try {
@@ -98,7 +106,7 @@ public class Dretva extends Thread {
 
     public static boolean compareScans(FolderComponent stari, FolderComponent trenutni) {
         boolean promjena = false;
-        if (compareScans(stari, trenutni, false, new ArrayList<>(), "-> OBRISANO") && compareScans(trenutni, stari, false, new ArrayList<>(), "-> PREIMENOVANO/DODANO")) {
+        if (compareScans(stari, trenutni, false, new ArrayList<>(), "-> OBRISANO")) {
             promjena = true;
         }
         if (compareScans(trenutni, stari, false, new ArrayList<>(), "-> PREIMENOVANO/DODANO")) {
@@ -124,7 +132,7 @@ public class Dretva extends Thread {
             Date date = new Date();
             String text = dateFormat.format(date) + "   " + ac.tip + "   " + putanjaPuna;
             boolean print = false;
-            int ret = prondji(trenutni, -1, putanje, 0, ac.vrijemePromjeneKreiranja);
+            int ret = pronadji(trenutni, -1, putanje, 0, ac.vrijemePromjeneKreiranja);
             if (ret == -1) {
                 promjena = true;
                 print = true;
@@ -147,7 +155,7 @@ public class Dretva extends Thread {
         return promjena;
     }
 
-    public static int prondji(FolderComponent file, int pronadjen, ArrayList<String> putanja, int index, Date zadnjaPromjena) {
+    public static int pronadji(FolderComponent file, int pronadjen, ArrayList<String> putanja, int index, Date zadnjaPromjena) {
         String findName = putanja.get(index);
         for (AbstractComponent fileEntry : file.children) {
             if (fileEntry.ime.equals(findName)) {
@@ -158,7 +166,7 @@ public class Dretva extends Thread {
                         return 1;
                     }
                 } else if (fileEntry.tip.equals("direktorij")) {
-                    pronadjen = prondji((FolderComponent) fileEntry, pronadjen, putanja, index + 1, zadnjaPromjena);
+                    pronadjen = pronadji((FolderComponent) fileEntry, pronadjen, putanja, index + 1, zadnjaPromjena);
                 } else {
                     return -1;
                 }
