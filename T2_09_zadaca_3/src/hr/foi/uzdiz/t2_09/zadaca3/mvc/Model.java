@@ -16,18 +16,17 @@ import java.util.Date;
  */
 public class Model {
 
-    private  int brojSekundi;
+    private int brojSekundi;
 
     private String direktorij;
-    private  FolderComponent state;
+    private FolderComponent state;
 
     public Model(String direktorij, int brojSekundi) {
         this.direktorij = direktorij;
         this.brojSekundi = brojSekundi;
     }
 
-    
-    public  int getBrojSekundi() {
+    public int getBrojSekundi() {
         return brojSekundi;
     }
 
@@ -39,7 +38,7 @@ public class Model {
         this.state = state;
     }
 
-    public  FolderComponent getState() {
+    public FolderComponent getState() {
         return state;
     }
 
