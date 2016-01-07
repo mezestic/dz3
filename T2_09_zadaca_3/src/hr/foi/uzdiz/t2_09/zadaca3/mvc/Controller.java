@@ -16,7 +16,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,16 +58,11 @@ public class Controller {
         FolderComponent structure = new FolderComponent();
         kreirajStrukturu(model.getDirektorij(), structure);
         this.model.set(structure);
-
         this.view.printStructure(model.getState(), "", true);
-        // pocetnu strukturu ne treba spremati, sprema se samo promjene
+        
+        // POCETNU STRUKTURU NE TREBA SPREMATI 
         //caretaker.addMemento(model.saveToMemento());
         //this.view.printStructure(caretaker.getMemento(0).getSavedState(), "", false);
-
-        //   FolderComponent structure2 = caretaker.getMemento(0).getSavedState();
-        //    for (AbstractComponent at : structure2.children){
-        //       System.out.println(at.ime);
-        //    }
     }
 
     public FolderComponent kreirajStrukturu(Boolean ret) {
@@ -150,31 +144,16 @@ public class Controller {
                 }
                 this.view.requestChoice();
                 break;
-//            case "6":
-//                // 
-//                this.view.requestChoice();
-//                break;[
-
-            case "7":
-                //    int oldState = 2;
-                /*
-                 FolderComponent trenutno = this.kreirajStrukturu();
-                 FolderComponent staro = savedMementos.get(oldState).getSavedState();
-                 String changeText = Controller.compareScans(savedMementos.get(oldState).getSavedState(), Model.getState());
-                 this.view.cleanPrimaryScreen();
-                 this.view.printLnToPrimary(changeText);
-                
-                 */
+            case "8":
 
                 this.view.requestChoice();
-            /*   case "8":
-             this.model.set(savedMementos.get(0).getSavedState());
-             this.caretaker.setSavedStates(new ArrayList<Memento>(savedMementos.subList(0, 1)));
-             this.view.printStructure(Model.getState(), "", false);
-             this.view.cleanInputScreen();
-             this.view.printLnToInput("Pritisnite <ENTER> za povratak");
-             this.view.requestChoice();
-             break; */
+                break;
+
+            case "9":
+
+                this.view.requestChoice();
+                break;
+
             default:
                 Pattern p = Pattern.compile("^(\\d) (\\d{1,3})$");
                 Matcher m = p.matcher(choice);
@@ -209,16 +188,6 @@ public class Controller {
 
                                 }
 
-                                /*
-                                 if(changeText.isEmpty()){
-                                 System.out.println("prazno");
-                                 }
-                                 else{
-                                 System.out.println("nije");
-                                 } */
-                                //  String changeText = Controller.compareScans(savedMementos.get(oldState).getSavedState(), Model.getState());
-                                // this.view.cleanPrimaryScreen();
-                                //   this.view.printLnToPrimary(changeText);
                             }
                             break;
                     }
