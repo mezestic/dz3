@@ -13,14 +13,10 @@ import java.util.List;
  * @author vedra
  */
 public class Caretaker {
-     private ArrayList<Memento> savedStates = new ArrayList<Memento>();
+   private ArrayList<Memento> savedStates = new ArrayList<Memento>();
 
     public ArrayList<Memento> getSavedStates() {
         return savedStates;
-    }
-    
-    public void setSavedStates(ArrayList<Memento> states) {
-        this.savedStates = states;
     }
     
     public void addMemento(Memento m) {

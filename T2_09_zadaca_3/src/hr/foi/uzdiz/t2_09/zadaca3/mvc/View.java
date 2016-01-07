@@ -289,7 +289,7 @@ public class View {
 
     //------------------ ISPISI ............
     public void printStructure(FolderComponent composite, String tab, boolean updateSecond) {
-        this.cleanSecondaryScreen();
+     
         this.cleanPrimaryScreen();
         this.printLnToInput("ISPIS STRUKTURE\n");
         this.ispisStrukture(composite, tab, updateSecond);
@@ -298,10 +298,10 @@ public class View {
     }
 
     private void ispisStrukture(FolderComponent composite, String tab, boolean updateSecond) {
-        FileRepository namesRepository = new FileRepository(composite);
-        for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
-            AbstractComponent c = (AbstractComponent) iter.next();
-
+     //   FileRepository namesRepository = new FileRepository(composite);
+     //   for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+     //       AbstractComponent c = (AbstractComponent) iter.next();
+for(AbstractComponent c: composite.children){
             String boja;
             if (c.tip.equals("direktorij")) {
                 brojDirektorija++;
