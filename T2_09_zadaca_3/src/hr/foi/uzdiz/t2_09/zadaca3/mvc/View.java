@@ -307,14 +307,13 @@ public class View {
             String boja;
             if (c.tip.equals("direktorij")) {
                 brojDirektorija++;
-                setColor("33");
+                setColor("37");
             } else {
                 brojDatoteka++;
                 ukupnaVelicina += c.velicina;
                 setColor("35");
             }
-
-            this.printLnToPrimary(String.format("%-50s", tab + c.ime) + String.format("%-15s", c.tip) + "   " + new SimpleDateFormat("HH:mm:ss  dd-MM-yyyy").format(c.vrijemePromjeneKreiranja) + "   " + MY_FORMATTER.format(c.velicina) + " B");
+            this.printLnToPrimary(String.format("%-40s", tab + c.ime) + String.format("%-12s", c.tip) + "  " + new SimpleDateFormat("HH:mm:ss").format(c.vrijemePromjeneKreiranja) + "   " + MY_FORMATTER.format(c.velicina) + " B");
             if (updateSecond) {
                 try {
                     Thread.sleep(250);

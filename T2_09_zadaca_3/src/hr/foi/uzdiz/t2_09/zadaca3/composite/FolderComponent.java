@@ -13,9 +13,9 @@ import java.util.List;
  *
  * @author vvadjune
  */
+//DIREKTORIJ
 public class FolderComponent extends AbstractComponent {
 
-    //direktorij
     public List<AbstractComponent> children = new ArrayList<AbstractComponent>();
 
     public FolderComponent() {

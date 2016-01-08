@@ -7,13 +7,13 @@ package hr.foi.uzdiz.t2_09.zadaca3.mvc;
 
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.memento.Memento;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  *
  * @author mezestic
  */
+
 public class Model {
 
     private int brojSekundi;
@@ -34,6 +34,7 @@ public class Model {
         return direktorij;
     }
 
+    // ORIGINIATOR
     public void set(FolderComponent state) {
         this.state = state;
     }

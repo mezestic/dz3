@@ -16,9 +16,9 @@ import java.util.Date;
  */
 public class Memento {
 
-     private FolderComponent state;
+    private FolderComponent state;
     private Date timeOfSave;
-    
+
     public Date getTimeOfSave() {
         return timeOfSave;
     }
@@ -32,23 +32,20 @@ public class Memento {
     public FolderComponent getSavedState() {
         return state;
     }
-    
-      private void copyState(FolderComponent from, FolderComponent to){
-        
-        for(AbstractComponent childFrom : from.children)
-            {
-                if(childFrom.tip.equals("datoteka"))
-                {
-                    to.addChild(new FileComponent(childFrom.ime, childFrom.tip, childFrom.vrijemePromjeneKreiranja, childFrom.velicina));
-                }
 
-                if(childFrom.tip.equals("direktorij"))
-                {
-                    FolderComponent childTo = new FolderComponent(childFrom.ime, childFrom.tip, childFrom.vrijemePromjeneKreiranja, childFrom.velicina);
-                    to.addChild(childTo);
-                    copyState((FolderComponent)childFrom, childTo);
-                }
+    private void copyState(FolderComponent from, FolderComponent to) {
+
+        for (AbstractComponent childFrom : from.children) {
+            if (childFrom.tip.equals("datoteka")) {
+                to.addChild(new FileComponent(childFrom.ime, childFrom.tip, childFrom.vrijemePromjeneKreiranja, childFrom.velicina));
             }
+
+            if (childFrom.tip.equals("direktorij")) {
+                FolderComponent childTo = new FolderComponent(childFrom.ime, childFrom.tip, childFrom.vrijemePromjeneKreiranja, childFrom.velicina);
+                to.addChild(childTo);
+                copyState((FolderComponent) childFrom, childTo);
+            }
+        }
     }
 
 }
