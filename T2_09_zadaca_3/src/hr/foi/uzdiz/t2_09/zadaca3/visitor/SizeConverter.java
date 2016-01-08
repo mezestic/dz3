@@ -50,5 +50,4 @@ public class SizeConverter implements ContentElement {
     public void accept(ContentVisitor visitor) {
         visitor.visit(this);
     }
-
 }

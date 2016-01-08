@@ -14,9 +14,6 @@ import hr.foi.uzdiz.t2_09.zadaca3.iterator.Iterator;
 import hr.foi.uzdiz.t2_09.zadaca3.layers.LowLevel;
 import hr.foi.uzdiz.t2_09.zadaca3.memento.Caretaker;
 import hr.foi.uzdiz.t2_09.zadaca3.memento.Memento;
-import hr.foi.uzdiz.t2_09.zadaca3.visitor.Content;
-import hr.foi.uzdiz.t2_09.zadaca3.visitor.ContentElementDoVisitor;
-import hr.foi.uzdiz.t2_09.zadaca3.visitor.ContentVisitor;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -190,14 +187,18 @@ public class Controller {
                 String option = inputReader.nextLine();
                 int optionInt = Integer.parseInt(option);
 
-                // VISITOR
+                // LAYERS 
+                // LAYER niže razine ima funkcionalost ispisa strukture u datoteku
+                // LAYER više razine poziva VISITOR koji računa KB, MB, GB i zapisuje u datoteku.
                 LowLevel layer = new LowLevel();
                 layer.setStructure(model.getState());
                 layer.setView(view);
                 layer.setOption(optionInt);
                 layer.setLevel();
                 layer.executeLayer();
-
+                
+                this.view.cleanInputScreen();
+                this.view.printLnToInput("Pritisnite <ENTER> za povratak");
                 this.view.requestChoice();
                 break;
             default:
