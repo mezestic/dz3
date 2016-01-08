@@ -10,7 +10,7 @@ import hr.foi.uzdiz.t2_09.zadaca3.mvc.View;
 
 /**
  *
- * @author vedra
+ * @author pvrbek
  */
 public class Content {
     
