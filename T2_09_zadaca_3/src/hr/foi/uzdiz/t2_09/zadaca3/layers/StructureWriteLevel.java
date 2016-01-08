@@ -9,7 +9,7 @@ package hr.foi.uzdiz.t2_09.zadaca3.layers;
  *
  * @author vedra
  */
-public class AditionalLevel implements ILayer{
+public class StructureWriteLevel implements ILayer{
 
     @Override
     public void akcija() {
