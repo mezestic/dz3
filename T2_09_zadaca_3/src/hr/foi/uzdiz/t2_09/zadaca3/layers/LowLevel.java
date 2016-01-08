@@ -7,7 +7,6 @@ package hr.foi.uzdiz.t2_09.zadaca3.layers;
 
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.View;
-import java.nio.ByteBuffer;
 
 /**
  *
@@ -29,7 +28,7 @@ public class LowLevel {
     }
 
     public void setLevel() {
-        this.levelTwo = new StructureWriteLevel();
+        this.levelTwo = new StructureWriteLevel(structure, view);
     }
 
     public void setOption(int optionInt) {
@@ -37,15 +36,15 @@ public class LowLevel {
     }
 
     public void executeLayer() {
-        if (option != 1 || option != 2) {
+
+        if (option != 1 && option != 2) {
             view.printLnToPrimary("Pogresan unos!");
-            view.printMenu();
+            view.cleanScreen();
+            System.exit(0);
         }
         if (option == 2) {
             this.levelTwo = new VisitorLevel(structure, view);
-        } else {
-            this.levelTwo.akcija();
         }
-
+        this.levelTwo.akcija();
     }
 }

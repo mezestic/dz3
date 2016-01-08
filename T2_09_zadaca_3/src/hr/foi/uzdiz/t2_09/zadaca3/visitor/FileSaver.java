@@ -5,7 +5,6 @@
  */
 package hr.foi.uzdiz.t2_09.zadaca3.visitor;
 
-import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.mvc.View;
 
 /**

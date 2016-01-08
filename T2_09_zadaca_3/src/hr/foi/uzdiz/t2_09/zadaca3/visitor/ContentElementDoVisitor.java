@@ -51,7 +51,7 @@ public class ContentElementDoVisitor implements ContentVisitor {
 
         View view = fileSaver.getView();
 
-       // File file = new File("D:\\output.txt");
+       // File file = new File("D:\\sizeOutput.txt");
         File file = new File("sizeOutput.txt");
         double converted = 0;
         DecimalFormat f = new DecimalFormat("####.00");
@@ -76,7 +76,7 @@ public class ContentElementDoVisitor implements ContentVisitor {
         }
         view.printLnToPrimary(" ");
         view.printLnToPrimary("FileSaver:");
-        view.printLnToPrimary("Podatak spremljen u datoteku: output.txt");
+        view.printLnToPrimary("Podatak spremljen u datoteku: sizeOutput.txt");
 
     }
 
