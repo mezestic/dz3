@@ -7,7 +7,7 @@ package hr.foi.uzdiz.t2_09.zadaca3.visitor;
 
 /**
  *
- * @author vedra
+ * @author pvrbek
  */
 public interface ContentVisitor {
 

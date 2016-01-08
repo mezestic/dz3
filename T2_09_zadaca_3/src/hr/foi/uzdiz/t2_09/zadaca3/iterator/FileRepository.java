@@ -9,7 +9,7 @@ import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 
 /**
  *
- * @author vedra
+ * @author atomas
  */
 public class FileRepository implements Container {
 

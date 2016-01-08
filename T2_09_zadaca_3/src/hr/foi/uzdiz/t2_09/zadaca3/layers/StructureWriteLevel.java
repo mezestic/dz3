@@ -35,7 +35,7 @@ public class StructureWriteLevel implements ILayer {
     @Override
     public void akcija() {
         
-        File file = new File("D:\\structureOutput.txt");
+        File file = new File("structureOutput.txt");
         double converted = 0;
        
         BufferedWriter bw;

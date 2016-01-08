@@ -7,7 +7,7 @@ package hr.foi.uzdiz.t2_09.zadaca3.iterator;
 
 /**
  *
- * @author vedra
+ * @author atomas
  */
 public interface Iterator {
 
