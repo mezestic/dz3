@@ -11,13 +11,18 @@ import hr.foi.uzdiz.t2_09.zadaca3.composite.FileComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.composite.FolderComponent;
 import hr.foi.uzdiz.t2_09.zadaca3.iterator.FileRepository;
 import hr.foi.uzdiz.t2_09.zadaca3.iterator.Iterator;
+import hr.foi.uzdiz.t2_09.zadaca3.layers.LowLevel;
 import hr.foi.uzdiz.t2_09.zadaca3.memento.Caretaker;
 import hr.foi.uzdiz.t2_09.zadaca3.memento.Memento;
+import hr.foi.uzdiz.t2_09.zadaca3.visitor.Content;
+import hr.foi.uzdiz.t2_09.zadaca3.visitor.ContentElementDoVisitor;
+import hr.foi.uzdiz.t2_09.zadaca3.visitor.ContentVisitor;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,7 +112,9 @@ public class Controller {
     }
 
     public void izracunajBrojElemenata(FolderComponent composite) {
-        for (AbstractComponent c : composite.children) {
+        FileRepository namesRepository = new FileRepository(composite);
+        for (Iterator iter = namesRepository.getIterator(); iter.hasNext();) {
+            AbstractComponent c = (AbstractComponent) iter.next();
             if (c.tip.equals("direktorij")) {
                 brojDirektorija++;
                 izracunajBrojElemenata((FolderComponent) c);
@@ -173,6 +180,24 @@ public class Controller {
                 this.view.cleanPrimaryScreen();
                 this.view.cleanSecondaryScreen();
                 this.view.printLnToPrimary("Vlastita funkcionalnost");
+
+                this.view.printLnToInput("-> Izaberi opciju <-");
+                this.view.printLnToInput("1) LAYERS: Upis strukture u datoteku");
+                this.view.printLnToInput("2) VISITOR: Konvertiranje ukupne velicine i upis u datoteku");
+                this.view.printLnToInput(" ");
+
+                Scanner inputReader = new Scanner(System.in);
+                String option = inputReader.nextLine();
+                int optionInt = Integer.parseInt(option);
+
+                // VISITOR
+                LowLevel layer = new LowLevel();
+                layer.setStructure(model.getState());
+                layer.setView(view);
+                layer.setOption(optionInt);
+                layer.setLevel();
+                layer.executeLayer();
+
                 this.view.requestChoice();
                 break;
             default:
@@ -197,7 +222,7 @@ public class Controller {
                                 this.view.printLnToPrimary("Stanje s tim rednim brojem ne postoji!");
                             } else {
                                 this.compareAndPrintScans(savedMementos.get(oldState).getSavedState(), this.model.getState());
-                                if(!printPromjena){
+                                if (!printPromjena) {
                                     this.view.printLnToPrimary("Strukture su identicne...");
                                 }
                             }
