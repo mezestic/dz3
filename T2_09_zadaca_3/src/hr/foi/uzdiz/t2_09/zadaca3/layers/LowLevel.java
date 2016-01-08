@@ -29,7 +29,7 @@ public class LowLevel {
     }
 
     public void setLevel() {
-        this.levelTwo = new AditionalLevel();
+        this.levelTwo = new StructureWriteLevel();
     }
 
     public void setOption(int optionInt) {

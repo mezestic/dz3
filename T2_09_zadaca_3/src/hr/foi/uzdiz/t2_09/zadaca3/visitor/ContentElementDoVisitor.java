@@ -35,13 +35,13 @@ public class ContentElementDoVisitor implements ContentVisitor {
 
         if (ukupnaVelicina > 1048576 && ukupnaVelicina < 1073741824) {
             converted = ukupnaVelicina / 1048576;
-            view.printLnToPrimary("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + "MB");
+            view.printLnToPrimary("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + " MB");
         } else if (ukupnaVelicina > 1073741824) {
             converted = ukupnaVelicina / 1073741824;
-            view.printLnToPrimary("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + "GB");
+            view.printLnToPrimary("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + " GB");
         } else {
             converted = ukupnaVelicina / 1024;
-            view.printLnToPrimary("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + "KB");
+            view.printLnToPrimary("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + " KB");
         }
 
     }
@@ -51,7 +51,8 @@ public class ContentElementDoVisitor implements ContentVisitor {
 
         View view = fileSaver.getView();
 
-        File file = new File("D:\\output.txt");
+       // File file = new File("D:\\output.txt");
+        File file = new File("sizeOutput.txt");
         double converted = 0;
         DecimalFormat f = new DecimalFormat("####.00");
 
@@ -60,13 +61,13 @@ public class ContentElementDoVisitor implements ContentVisitor {
             bw = new BufferedWriter(new FileWriter(file));
             if (ukupnaVelicina > 1048576 && ukupnaVelicina < 1073741824) {
                 converted = ukupnaVelicina / 1048576;
-                bw.write("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + "MB");
+                bw.write("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + " MB");
             } else if (ukupnaVelicina > 1073741824) {
                 converted = ukupnaVelicina / 1073741824;
-                bw.write("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + "GB");
+                bw.write("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + " GB");
             } else {
                 converted = ukupnaVelicina / 1024;
-                bw.write("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + "KB");
+                bw.write("Ukupna konvertirana velicina: " + String.valueOf(f.format(converted)) + " KB");
             }
 
             bw.close();
